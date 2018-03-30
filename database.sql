@@ -10,7 +10,6 @@ DROP TABLE IF EXISTS movie;
 
 CREATE TABLE movie(
    movieId INT NOT NULL AUTO_INCREMENT,
-   director VARCHAR(50) NOT NULL,
    title VARCHAR(50) NOT NULL,
    description VARCHAR(59) NOT NULL,
    realeseYear DATE,
@@ -74,6 +73,5 @@ CREATE TABLE directorMovie(
     FOREIGN KEY ( actorId ) REFERENCES actor( actorId ),
     FOREIGN KEY ( movieId ) REFERENCES movie( movieId )
 );
-
 
 
