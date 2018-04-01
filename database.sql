@@ -538,21 +538,21 @@ INSERT INTO `johannesp`.`moviegenre`
 `movieId`)
 VALUES
 (@adventure,
-@independeceDay);
+@interstellar);
 
 INSERT INTO `johannesp`.`moviegenre`
 (`genreId`,
 `movieId`)
 VALUES
 (@drama,
-@independeceDay);
+@interstellar);
 
 INSERT INTO `johannesp`.`moviegenre`
 (`genreId`,
 `movieId`)
 VALUES
 (@sciFi,
-@independeceDay);
+@interstellar);
 
 -- film3
 
