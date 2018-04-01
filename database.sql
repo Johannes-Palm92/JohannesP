@@ -538,21 +538,21 @@ INSERT INTO `johannesp`.`moviegenre`
 `movieId`)
 VALUES
 (@adventure,
-@independeceDay);
+@interstellar);
 
 INSERT INTO `johannesp`.`moviegenre`
 (`genreId`,
 `movieId`)
 VALUES
 (@drama,
-@independeceDay);
+@interstellar);
 
 INSERT INTO `johannesp`.`moviegenre`
 (`genreId`,
 `movieId`)
 VALUES
 (@sciFi,
-@independeceDay);
+@interstellar);
 
 -- film3
 
@@ -1231,4 +1231,17 @@ INNER JOIN genre g ON g.genreId = mG.genreId
 GROUP BY m.movieId
 ORDER BY m.title;
 
+CREATE VIEW view_moviesInDrama AS
+
+SELECT m.title Title, m.description Description, m.realeseYear Releaseyear, GROUP_CONCAT(DISTINCT ' ', g.genre) Genres, m.lengthInMinutes Length, CONCAT(d.firstName,' ', d.lastName) as Director,
+GROUP_CONCAT(DISTINCT' ',a.firstName,' ', a.lastName) Actors
+from movie m
+INNER JOIN director d ON d.directorId = m.directorId
+INNER JOIN movieActor mA ON mA.movieId = m.movieid
+INNER JOIN actor a ON a.actorId = mA.actorId
+INNER JOIN moviegenre mG ON mG.movieId = m.movieId
+INNER JOIN genre g ON g.genreId = mG.genreId
+GROUP BY m.movieId
+HAVING Genres LIKE '%Drama%'
+ORDER BY m.title;
 
