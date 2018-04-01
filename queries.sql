@@ -6,4 +6,4 @@ SELECT * FROM view_moviesInStore;
 
 -- Fråga 2. Vilka filmer som finns i en viss genre.
 
-SELECT * FROM view_moviesinDrama;
+SELECT * FROM view_moviesInDrama;
