@@ -6,7 +6,7 @@ CREATE DATABASE johannesp;
 
 USE johannesp;
 
-DROP TABLE IF EXISTS address;
+
 
 CREATE TABLE address(
 	addressId INT NOT NULL AUTO_INCREMENT,
@@ -17,7 +17,6 @@ CREATE TABLE address(
 	PRIMARY KEY ( addressId )
 );
 
-DROP TABLE IF EXISTS director;
 
 CREATE TABLE director(
 	directorId INT NOT NULL AUTO_INCREMENT,
@@ -26,7 +25,6 @@ CREATE TABLE director(
     PRIMARY KEY ( directorId )
 );
 
-DROP TABLE IF EXISTS movie;
 
 CREATE TABLE movie(
    movieId INT NOT NULL AUTO_INCREMENT,
@@ -40,7 +38,6 @@ CREATE TABLE movie(
    PRIMARY KEY ( movieId )
 );
 
-DROP TABLE IF EXISTS actor;
 
 CREATE TABLE actor(
 	actorId INT NOT NULL AUTO_INCREMENT,
@@ -49,15 +46,12 @@ CREATE TABLE actor(
     PRIMARY KEY ( actorId )
 );
 
-DROP TABLE IF EXISTS genre;
-
 CREATE TABLE genre(
 	genreId INT NOT NULL AUTO_INCREMENT,
     genre VARCHAR(50) NOT NULL,
     PRIMARY KEY ( genreId )
 );
 
-DROP TABLE IF EXISTS customer;
 
 CREATE TABLE customer(
    customerId INT NOT NULL AUTO_INCREMENT,
@@ -72,7 +66,6 @@ CREATE TABLE customer(
    PRIMARY KEY ( customerId )
 );
 
-DROP TABLE IF EXISTS employee;
 
 CREATE TABLE employee(
    employeeId INT NOT NULL AUTO_INCREMENT,
@@ -86,7 +79,6 @@ CREATE TABLE employee(
    PRIMARY KEY ( employeeId )
 );
 
-DROP TABLE IF EXISTS movieActor;
 
     CREATE TABLE movieActor(
 	actorId INT NOT NULL,
@@ -97,7 +89,6 @@ DROP TABLE IF EXISTS movieActor;
     REFERENCES movie( movieId )
 );
 
-DROP TABLE IF EXISTS movieGenre;
 
     CREATE TABLE movieGenre(
 	genreId INT NOT NULL,
@@ -106,6 +97,37 @@ DROP TABLE IF EXISTS movieGenre;
     REFERENCES genre( genreId ),
     FOREIGN KEY ( movieId ) 
     REFERENCES movie( movieId )
+);
+
+
+CREATE TABLE movieCopy(
+	movieCopyId INT NOT NULL AUTO_INCREMENT,
+	movieId INT NOT NULL,
+    FOREIGN KEY ( movieId ) 
+    REFERENCES movie( movieId ),
+    PRIMARY KEY ( movieCopyId )
+);
+
+CREATE TABLE rental(
+	rentalId INT NOT NULL AUTO_INCREMENT,
+	customerId INT NOT NULL,
+	employeeId INT NOT NULL,
+    rentalDate DATE NOT NULL,
+    returnDate DATE NULL,
+    FOREIGN KEY ( customerId )
+    REFERENCES customer( customerId ),
+    FOREIGN KEY ( employeeId )
+    REFERENCES employee( employeeId ),
+    PRIMARY KEY ( rentalId )
+);
+
+CREATE TABLE rentalItem(
+	rentalId INT NOT NULL,
+    movieCopyId INT NOT NULL,
+    FOREIGN KEY ( rentalId )
+	REFERENCES rental( rentalId ),
+	FOREIGN KEY ( movieCopyId )
+	REFERENCES movieCopy( movieCopyId )
 );
 
 -- genre data
@@ -921,6 +943,149 @@ VALUES
 (@comedy,
 @bioDome);
 
+-- movieCopies
+
+INSERT INTO `johannesp`.`moviecopy`
+(`movieId`)
+VALUES
+(@independeceDay);
+
+SELECT LAST_INSERT_ID() INTO @independenceDayCopy1;
+
+INSERT INTO `johannesp`.`moviecopy`
+(`movieId`)
+VALUES
+(@independeceDay);
+
+SELECT LAST_INSERT_ID() INTO @independenceDayCopy2;
+
+INSERT INTO `johannesp`.`moviecopy`
+(`movieId`)
+VALUES
+(@interstellar);
+
+SELECT LAST_INSERT_ID() INTO @interstellarCopy1;
+
+INSERT INTO `johannesp`.`moviecopy`
+(`movieId`)
+VALUES
+(@interstellar);
+
+SELECT LAST_INSERT_ID() INTO @interstellarCopy2;
+
+INSERT INTO `johannesp`.`moviecopy`
+(`movieId`)
+VALUES
+(@fightClub);
+
+SELECT LAST_INSERT_ID() INTO @fightClubCopy1;
+
+INSERT INTO `johannesp`.`moviecopy`
+(`movieId`)
+VALUES
+(@fightClub);
+
+SELECT LAST_INSERT_ID() INTO @fightClubCopy2;
+
+INSERT INTO `johannesp`.`moviecopy`
+(`movieId`)
+VALUES
+(@almostFamous);
+
+SELECT LAST_INSERT_ID() INTO @almostFamousCopy1;
+
+INSERT INTO `johannesp`.`moviecopy`
+(`movieId`)
+VALUES
+(@almostFamous);
+
+SELECT LAST_INSERT_ID() INTO @almostFamousCopy2;
+
+INSERT INTO `johannesp`.`moviecopy`
+(`movieId`)
+VALUES
+(@lambs);
+
+SELECT LAST_INSERT_ID() INTO @lambsCopy1;
+
+INSERT INTO `johannesp`.`moviecopy`
+(`movieId`)
+VALUES
+(@lambs);
+
+SELECT LAST_INSERT_ID() INTO @lambsCopy2;
+
+
+INSERT INTO `johannesp`.`moviecopy`
+(`movieId`)
+VALUES
+(@casablanca);
+
+SELECT LAST_INSERT_ID() INTO @casablancaCopy1;
+
+INSERT INTO `johannesp`.`moviecopy`
+(`movieId`)
+VALUES
+(@casablanca);
+
+SELECT LAST_INSERT_ID() INTO @casablancaCopy2;
+
+INSERT INTO `johannesp`.`moviecopy`
+(`movieId`)
+VALUES
+(@shawshankRedemption);
+
+SELECT LAST_INSERT_ID() INTO @shawshankRedemptionCopy1;
+
+INSERT INTO `johannesp`.`moviecopy`
+(`movieId`)
+VALUES
+(@shawshankRedemption);
+
+SELECT LAST_INSERT_ID() INTO @shawshankRedemptionCopy2;
+
+INSERT INTO `johannesp`.`moviecopy`
+(`movieId`)
+VALUES
+(@dumbDumber);
+
+SELECT LAST_INSERT_ID() INTO @dumbDumberCopy1;
+
+INSERT INTO `johannesp`.`moviecopy`
+(`movieId`)
+VALUES
+(@dumbDumber);
+
+SELECT LAST_INSERT_ID() INTO @dumbDumberCopy2;
+
+INSERT INTO `johannesp`.`moviecopy`
+(`movieId`)
+VALUES
+(@skyline);
+
+SELECT LAST_INSERT_ID() INTO @skylineCopy1;
+
+INSERT INTO `johannesp`.`moviecopy`
+(`movieId`)
+VALUES
+(@skyline);
+
+SELECT LAST_INSERT_ID() INTO @skylineCopy2;
+
+INSERT INTO `johannesp`.`moviecopy`
+(`movieId`)
+VALUES
+(@bioDome);
+
+SELECT LAST_INSERT_ID() INTO @bioDomeCopy1;
+
+INSERT INTO `johannesp`.`moviecopy`
+(`movieId`)
+VALUES
+(@bioDome);
+
+SELECT LAST_INSERT_ID() INTO @bioDomeCopy2;
+
 -- address 1
 
 INSERT INTO `johannesp`.`address`
@@ -1215,6 +1380,270 @@ VALUES
 @employeeAdressId8
 );
 
+-- rentalInfo
+
+-- rental 1
+
+INSERT INTO `johannesp`.`rental`
+(`customerId`,
+`employeeId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(1,
+1,
+"2018-04-01",
+NULL);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`)
+VALUES
+(1,
+@independenceDayCopy1);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`)
+VALUES
+(1,
+@interstellarCopy1);
+
+-- rental 2
+
+INSERT INTO `johannesp`.`rental`
+(`customerId`,
+`employeeId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(2,
+1,
+"2018-03-28",
+NULL);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`)
+VALUES
+(2,
+@independenceDayCopy2);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`)
+VALUES
+(2,
+@fightClubCopy1);
+
+-- rental 3
+
+INSERT INTO `johannesp`.`rental`
+(`customerId`,
+`employeeId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(3,
+2,
+"2018-04-01",
+NULL);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`)
+VALUES
+(3,
+@fightClubCopy2);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`)
+VALUES
+(3,
+@interstellarCopy2);
+
+-- rental 4
+
+INSERT INTO `johannesp`.`rental`
+(`customerId`,
+`employeeId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(4,
+2,
+"2018-04-01",
+NULL);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`)
+VALUES
+(4,
+@almostFamousCopy1);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`)
+VALUES
+(4,
+@casablancaCopy1);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`)
+VALUES
+(4,
+@lambsCopy1);
+
+-- rental 5
+
+INSERT INTO `johannesp`.`rental`
+(`customerId`,
+`employeeId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(5,
+1,
+"2018-03-27",
+NULL);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`)
+VALUES
+(5,
+@lambsCopy2);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`)
+VALUES
+(4,
+@casablancaCopy2);
+
+-- rental 6
+
+INSERT INTO `johannesp`.`rental`
+(`customerId`,
+`employeeId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(6,
+1,
+"2018-04-02",
+"2018-04-03");
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`)
+VALUES
+(6,
+@almostFamousCopy2);
+
+-- rental 7
+
+INSERT INTO `johannesp`.`rental`
+(`customerId`,
+`employeeId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(7,
+2,
+"2018-04-03",
+NULL);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`)
+VALUES
+(7,
+@shawshankRedemptionCopy1);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`)
+VALUES
+(7,
+@bioDomeCopy1);
+
+-- rental 8
+
+INSERT INTO `johannesp`.`rental`
+(`customerId`,
+`employeeId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(8,
+2,
+"2018-03-28",
+NULL);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`)
+VALUES
+(8,
+@bioDomeCopy2);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`)
+VALUES
+(8,
+@skylineCopy1);
+
+-- rental 9
+
+INSERT INTO `johannesp`.`rental`
+(`customerId`,
+`employeeId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(9,
+2,
+"2018-04-01",
+NULL);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`)
+VALUES
+(9,
+@skylineCopy2);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`)
+VALUES
+(9,
+@dumbDumberCopy1);
+
+-- rental 10
+
+INSERT INTO `johannesp`.`rental`
+(`customerId`,
+`employeeId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(10,
+2,
+"2018-03-25",
+"2018-03-30");
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`)
+VALUES
+(10,
+@dumbDumberCopy2);
 
 -- views
 
@@ -1245,3 +1674,16 @@ GROUP BY m.movieId
 HAVING Genres LIKE '%Drama%'
 ORDER BY m.title;
 
+CREATE VIEW view_rentalInfo AS
+
+SELECT GROUP_CONCAT(' ', m.title) 'Rented movies', 
+CONCAT(c.firstName, ' ', c.lastName) Customer, c.phoneNumber 'Customer phone', 
+CONCAT(e.firstName, ' ',e.lastName) Employee FROM rental r
+INNER JOIN rentalItem rI ON rI.rentalId = r.rentalId
+INNER JOIN movieCopy mC ON mC.movieCopyId = rI.movieCopyId
+INNER JOIN movie m ON m.movieId = mC.movieId
+INNER JOIN employee e on e.employeeId = r.employeeId
+INNER JOIN customer c ON c.customerId = r.customerId
+WHERE r.returnDate IS NULL
+GROUP BY r.rentalId 
+ORDER BY m.title;

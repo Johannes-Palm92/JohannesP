@@ -7,3 +7,7 @@ SELECT * FROM view_moviesInStore;
 -- Fråga 2. Vilka filmer som finns i en viss genre.
 
 SELECT * FROM view_moviesInDrama;
+
+-- Fråga 3. Vilka filmer som är uthyrda, vem som hyrde dem (kund) och vem som hyrde ut dem (anställd).
+
+SELECT * FROM view_rentalInfo;
