@@ -1533,7 +1533,7 @@ INSERT INTO `johannesp`.`rentalitem`
 (`rentalId`,
 `movieCopyId`)
 VALUES
-(4,
+(5,
 @casablancaCopy2);
 
 -- rental 6
@@ -1559,14 +1559,6 @@ VALUES
 @almostFamousCopy2);
 
 -- rental 7
-
-UPDATE `johannesp`.`rental`
-SET
-`customerId` = 7,
-`employeeId` = 2,
-`rentalDate` = "2018-03-30",
-`returnDate` = NULL
-WHERE `rentalId` = 7;
 
 
 INSERT INTO `johannesp`.`rental`
@@ -1676,6 +1668,13 @@ VALUES
 (10,
 @dumbDumberCopy2);
 
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`)
+VALUES
+(10,
+@shawshankRedemptionCopy2);
+
 -- views
 
 CREATE VIEW view_moviesInStore AS
@@ -1734,3 +1733,14 @@ WHERE DATEDIFF(r.returnDate, r.rentalDate) > r.rentalDuration OR
 (r.returnDate IS NULL AND DATEDIFF(CURRENT_DATE(), r.rentalDate) > r.rentalDuration)
 GROUP BY r.rentalId 
 ORDER BY m.title;
+
+CREATE VIEW view_employeeRentalInfo AS
+
+SELECT CONCAT(e.firstName, ' ',e.lastName) Employees,
+COUNT(rI.movieCopyId) 'Number of movies rented out'
+FROM employee e
+INNER JOIN rental r ON r.employeeId = e.employeeId
+INNER JOIN rentalItem rI ON rI.rentalId = r.rentalId
+WHERE r.rentalDate IS NOT NULL
+GROUP BY e.employeeId
+ORDER BY COUNT(rI.movieCopyId) DESC;

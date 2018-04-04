@@ -16,3 +16,7 @@ SELECT * FROM view_rentalInfo;
 -- tillsammans med namnet på kunden som har hyrt den.
 
 SELECT * FROM view_overduemovies;
+
+-- Fråga 5. En lista över alla anställda och hur många filmer varje anställd har hyrt ut.
+
+SELECT * FROM view_employeeRentalInfo;
