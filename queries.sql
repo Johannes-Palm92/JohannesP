@@ -20,3 +20,7 @@ SELECT * FROM view_overduemovies;
 -- Fråga 5. En lista över alla anställda och hur många filmer varje anställd har hyrt ut.
 
 SELECT * FROM view_employeeRentalInfo;
+
+-- Fråga 6. En lista med statistik över de mest uthyrda filmerna den senaste månaden. Se fråga 10.
+
+SELECT * FROM view_movieRentalsLastMonth;

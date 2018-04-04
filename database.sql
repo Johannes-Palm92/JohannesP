@@ -1744,3 +1744,15 @@ INNER JOIN rentalItem rI ON rI.rentalId = r.rentalId
 WHERE r.rentalDate IS NOT NULL
 GROUP BY e.employeeId
 ORDER BY COUNT(rI.movieCopyId) DESC;
+
+CREATE VIEW view_movieRentalsLastMonth AS
+
+SELECT m.title 'Title',
+COUNT(rI.movieCopyId) 'Times rented'
+FROM movie m
+INNER JOIN movieCopy mC ON mC.movieId = m.movieId
+INNER JOIN rentalItem rI ON rI.movieCopyId = mC.movieCopyId
+INNER JOIN rental r ON r.rentalId = rI.rentalId
+WHERE r.rentalDate BETWEEN "2018-03-01" AND "2018-03-31"
+GROUP BY m.title
+ORDER BY COUNT(rI.movieCopyId) DESC;
