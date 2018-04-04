@@ -114,6 +114,7 @@ CREATE TABLE rental(
 	employeeId INT NOT NULL,
     rentalDate DATE NOT NULL,
     returnDate DATE NULL,
+	rentalDuration INT NOT NULL,
     FOREIGN KEY ( customerId )
     REFERENCES customer( customerId ),
     FOREIGN KEY ( employeeId )
@@ -1388,12 +1389,14 @@ INSERT INTO `johannesp`.`rental`
 (`customerId`,
 `employeeId`,
 `rentalDate`,
-`returnDate`)
+`returnDate`,
+`rentalDuration`)
 VALUES
 (1,
 1,
-"2018-04-01",
-NULL);
+"2018-03-20",
+"2018-03-29",
+4);
 
 INSERT INTO `johannesp`.`rentalitem`
 (`rentalId`,
@@ -1415,12 +1418,14 @@ INSERT INTO `johannesp`.`rental`
 (`customerId`,
 `employeeId`,
 `rentalDate`,
-`returnDate`)
+`returnDate`,
+`rentalDuration`)
 VALUES
 (2,
 1,
-"2018-03-28",
-NULL);
+"2018-02-18",
+"2018-02-28",
+4);
 
 INSERT INTO `johannesp`.`rentalitem`
 (`rentalId`,
@@ -1442,12 +1447,14 @@ INSERT INTO `johannesp`.`rental`
 (`customerId`,
 `employeeId`,
 `rentalDate`,
-`returnDate`)
+`returnDate`,
+`rentalDuration`)
 VALUES
 (3,
 2,
-"2018-04-01",
-NULL);
+"2018-01-01",
+"2018-01-04",
+4);
 
 INSERT INTO `johannesp`.`rentalitem`
 (`rentalId`,
@@ -1469,12 +1476,14 @@ INSERT INTO `johannesp`.`rental`
 (`customerId`,
 `employeeId`,
 `rentalDate`,
-`returnDate`)
+`returnDate`,
+`rentalDuration`)
 VALUES
 (4,
 2,
 "2018-04-01",
-NULL);
+NULL,
+4);
 
 INSERT INTO `johannesp`.`rentalitem`
 (`rentalId`,
@@ -1503,12 +1512,15 @@ INSERT INTO `johannesp`.`rental`
 (`customerId`,
 `employeeId`,
 `rentalDate`,
-`returnDate`)
+`returnDate`,
+`rentalDuration`
+)
 VALUES
 (5,
 1,
-"2018-03-27",
-NULL);
+"2018-04-01",
+"2018-03-04",
+4);
 
 INSERT INTO `johannesp`.`rentalitem`
 (`rentalId`,
@@ -1530,12 +1542,14 @@ INSERT INTO `johannesp`.`rental`
 (`customerId`,
 `employeeId`,
 `rentalDate`,
-`returnDate`)
+`returnDate`,
+`rentalDuration`)
 VALUES
 (6,
 1,
 "2018-04-02",
-"2018-04-03");
+"2018-04-03",
+4);
 
 INSERT INTO `johannesp`.`rentalitem`
 (`rentalId`,
@@ -1546,16 +1560,27 @@ VALUES
 
 -- rental 7
 
+UPDATE `johannesp`.`rental`
+SET
+`customerId` = 7,
+`employeeId` = 2,
+`rentalDate` = "2018-03-30",
+`returnDate` = NULL
+WHERE `rentalId` = 7;
+
+
 INSERT INTO `johannesp`.`rental`
 (`customerId`,
 `employeeId`,
 `rentalDate`,
-`returnDate`)
+`returnDate`,
+`rentalDuration`)
 VALUES
 (7,
 2,
-"2018-04-03",
-NULL);
+"2018-03-30",
+NULL,
+4);
 
 INSERT INTO `johannesp`.`rentalitem`
 (`rentalId`,
@@ -1577,12 +1602,14 @@ INSERT INTO `johannesp`.`rental`
 (`customerId`,
 `employeeId`,
 `rentalDate`,
-`returnDate`)
+`returnDate`,
+`rentalDuration`)
 VALUES
 (8,
 2,
-"2018-03-28",
-NULL);
+"2018-02-25",
+"2018-03-30",
+4);
 
 INSERT INTO `johannesp`.`rentalitem`
 (`rentalId`,
@@ -1604,12 +1631,14 @@ INSERT INTO `johannesp`.`rental`
 (`customerId`,
 `employeeId`,
 `rentalDate`,
-`returnDate`)
+`returnDate`,
+`rentalDuration`)
 VALUES
 (9,
 2,
-"2018-04-01",
-NULL);
+"2018-04-04",
+NULL,
+4);
 
 INSERT INTO `johannesp`.`rentalitem`
 (`rentalId`,
@@ -1631,12 +1660,14 @@ INSERT INTO `johannesp`.`rental`
 (`customerId`,
 `employeeId`,
 `rentalDate`,
-`returnDate`)
+`returnDate`,
+`rentalDuration`)
 VALUES
 (10,
 2,
 "2018-03-25",
-"2018-03-30");
+"2018-03-30",
+4);
 
 INSERT INTO `johannesp`.`rentalitem`
 (`rentalId`,
@@ -1685,5 +1716,21 @@ INNER JOIN movie m ON m.movieId = mC.movieId
 INNER JOIN employee e on e.employeeId = r.employeeId
 INNER JOIN customer c ON c.customerId = r.customerId
 WHERE r.returnDate IS NULL
+GROUP BY r.rentalId 
+ORDER BY m.title;
+
+CREATE VIEW view_overdueMovies AS
+
+SELECT GROUP_CONCAT(' ', m.title) 'Rented movies', r.rentalDate 'Rented on',
+r.returnDate 'Returned on',
+CONCAT(c.firstName, ' ', c.lastName) Customer, c.phoneNumber 'Customer phone'
+FROM rental r
+INNER JOIN rentalItem rI ON rI.rentalId = r.rentalId
+INNER JOIN movieCopy mC ON mC.movieCopyId = rI.movieCopyId
+INNER JOIN movie m ON m.movieId = mC.movieId
+INNER JOIN employee e on e.employeeId = r.employeeId
+INNER JOIN customer c ON c.customerId = r.customerId
+WHERE DATEDIFF(r.returnDate, r.rentalDate) > r.rentalDuration OR 
+(r.returnDate IS NULL AND DATEDIFF(CURRENT_DATE(), r.rentalDate) > r.rentalDuration)
 GROUP BY r.rentalId 
 ORDER BY m.title;
