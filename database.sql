@@ -1500,3 +1500,22 @@ END IF;
 END$$
 
 DELIMITER ;
+
+USE `johannesp`;
+DROP function IF EXISTS `isItLate`;
+
+DELIMITER $$
+USE `johannesp`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `isItLate`(movcopyId VARCHAR(20)) RETURNS varchar(20) CHARSET utf8
+BEGIN
+
+IF((SELECT rI.rentalDate FROM rentalItem rI
+WHERE (rI.movieCopyId = movcopyId AND rI.returnDate IS NULL) AND DATEDIFF(CURRENT_DATE, rI.rentalDate) > 4))
+THEN
+RETURN 'True';
+ELSE
+RETURN 'False';
+END IF;
+END$$
+
+DELIMITER ;
