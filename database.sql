@@ -112,9 +112,6 @@ CREATE TABLE rental(
 	rentalId INT NOT NULL AUTO_INCREMENT,
 	customerId INT NOT NULL,
 	employeeId INT NOT NULL,
-    rentalDate DATE NOT NULL,
-    returnDate DATE NULL,
-	rentalDuration INT NOT NULL,
     FOREIGN KEY ( customerId )
     REFERENCES customer( customerId ),
     FOREIGN KEY ( employeeId )
@@ -122,9 +119,12 @@ CREATE TABLE rental(
     PRIMARY KEY ( rentalId )
 );
 
+
 CREATE TABLE rentalItem(
 	rentalId INT NOT NULL,
     movieCopyId INT NOT NULL,
+    rentalDate DATE NOT NULL,
+    returnDate DATE NULL,
     FOREIGN KEY ( rentalId )
 	REFERENCES rental( rentalId ),
 	FOREIGN KEY ( movieCopyId )
@@ -1381,299 +1381,7 @@ VALUES
 @employeeAdressId8
 );
 
--- rentalInfo
 
--- rental 1
-
-INSERT INTO `johannesp`.`rental`
-(`customerId`,
-`employeeId`,
-`rentalDate`,
-`returnDate`,
-`rentalDuration`)
-VALUES
-(1,
-1,
-"2018-03-20",
-"2018-03-29",
-4);
-
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`)
-VALUES
-(1,
-@independenceDayCopy1);
-
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`)
-VALUES
-(1,
-@interstellarCopy1);
-
--- rental 2
-
-INSERT INTO `johannesp`.`rental`
-(`customerId`,
-`employeeId`,
-`rentalDate`,
-`returnDate`,
-`rentalDuration`)
-VALUES
-(2,
-1,
-"2018-02-18",
-"2018-02-28",
-4);
-
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`)
-VALUES
-(2,
-@independenceDayCopy2);
-
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`)
-VALUES
-(2,
-@fightClubCopy1);
-
--- rental 3
-
-INSERT INTO `johannesp`.`rental`
-(`customerId`,
-`employeeId`,
-`rentalDate`,
-`returnDate`,
-`rentalDuration`)
-VALUES
-(3,
-2,
-"2018-01-01",
-"2018-01-04",
-4);
-
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`)
-VALUES
-(3,
-@fightClubCopy2);
-
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`)
-VALUES
-(3,
-@interstellarCopy2);
-
--- rental 4
-
-INSERT INTO `johannesp`.`rental`
-(`customerId`,
-`employeeId`,
-`rentalDate`,
-`returnDate`,
-`rentalDuration`)
-VALUES
-(4,
-2,
-"2018-04-01",
-NULL,
-4);
-
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`)
-VALUES
-(4,
-@almostFamousCopy1);
-
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`)
-VALUES
-(4,
-@casablancaCopy1);
-
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`)
-VALUES
-(4,
-@lambsCopy1);
-
--- rental 5
-
-INSERT INTO `johannesp`.`rental`
-(`customerId`,
-`employeeId`,
-`rentalDate`,
-`returnDate`,
-`rentalDuration`
-)
-VALUES
-(5,
-1,
-"2018-04-01",
-"2018-03-04",
-4);
-
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`)
-VALUES
-(5,
-@lambsCopy2);
-
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`)
-VALUES
-(5,
-@casablancaCopy2);
-
--- rental 6
-
-INSERT INTO `johannesp`.`rental`
-(`customerId`,
-`employeeId`,
-`rentalDate`,
-`returnDate`,
-`rentalDuration`)
-VALUES
-(6,
-1,
-"2018-04-02",
-"2018-04-03",
-4);
-
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`)
-VALUES
-(6,
-@almostFamousCopy2);
-
--- rental 7
-
-
-INSERT INTO `johannesp`.`rental`
-(`customerId`,
-`employeeId`,
-`rentalDate`,
-`returnDate`,
-`rentalDuration`)
-VALUES
-(7,
-2,
-"2018-03-30",
-NULL,
-4);
-
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`)
-VALUES
-(7,
-@shawshankRedemptionCopy1);
-
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`)
-VALUES
-(7,
-@bioDomeCopy1);
-
--- rental 8
-
-INSERT INTO `johannesp`.`rental`
-(`customerId`,
-`employeeId`,
-`rentalDate`,
-`returnDate`,
-`rentalDuration`)
-VALUES
-(8,
-2,
-"2018-02-25",
-"2018-03-30",
-4);
-
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`)
-VALUES
-(8,
-@bioDomeCopy2);
-
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`)
-VALUES
-(8,
-@skylineCopy1);
-
--- rental 9
-
-INSERT INTO `johannesp`.`rental`
-(`customerId`,
-`employeeId`,
-`rentalDate`,
-`returnDate`,
-`rentalDuration`)
-VALUES
-(9,
-2,
-"2018-04-04",
-NULL,
-4);
-
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`)
-VALUES
-(9,
-@skylineCopy2);
-
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`)
-VALUES
-(9,
-@dumbDumberCopy1);
-
--- rental 10
-
-INSERT INTO `johannesp`.`rental`
-(`customerId`,
-`employeeId`,
-`rentalDate`,
-`returnDate`,
-`rentalDuration`)
-VALUES
-(10,
-2,
-"2018-03-25",
-"2018-03-30",
-4);
-
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`)
-VALUES
-(10,
-@dumbDumberCopy2);
-
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`)
-VALUES
-(10,
-@shawshankRedemptionCopy2);
 
 -- views
 
@@ -1756,3 +1464,40 @@ INNER JOIN rental r ON r.rentalId = rI.rentalId
 WHERE r.rentalDate BETWEEN "2018-03-01" AND "2018-03-31"
 GROUP BY m.title
 ORDER BY COUNT(rI.movieCopyId) DESC;
+
+USE `johannesp`;
+DROP procedure IF EXISTS `sp_onRental`;
+
+DELIMITER $$
+USE `johannesp`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_onRental`(
+	IN custId INT,
+    IN empId INT,
+    IN movcopyId INT)
+BEGIN
+
+IF((SELECT COUNT(*) FROM rentalItem WHERE movieCopyId = movcopyId AND returnDate IS NULL) = 0)
+THEN
+INSERT INTO `johannesp`.`rental`
+(`customerId`,
+`employeeId`)
+VALUES
+(empId,
+custId);
+ 
+ INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(last_insert_id(),
+movcopyId,
+CURRENT_DATE(),
+NULL);
+
+END IF;
+
+END$$
+
+DELIMITER ;
