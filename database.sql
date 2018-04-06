@@ -1519,3 +1519,25 @@ END IF;
 END$$
 
 DELIMITER ;
+
+USE `johannesp`;
+DROP procedure IF EXISTS `sp_onReturn`;
+
+DELIMITER $$
+USE `johannesp`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_onReturn`(IN movcopyId VARCHAR(20))
+BEGIN
+
+IF ((SELECT COUNT(*) FROM rentalItem WHERE movcopyId = movieCopyId AND returnDate IS NULL) = 1)
+THEN
+SELECT isItLate(movcopyId);
+UPDATE `johannesp`.`rentalitem`
+SET
+`returnDate` = CURRENT_DATE
+WHERE movieCopyId = movcopyId;
+
+
+END IF;
+END$$
+
+DELIMITER ;
