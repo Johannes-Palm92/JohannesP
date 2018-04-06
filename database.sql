@@ -1428,8 +1428,8 @@ ORDER BY m.title;
 
 CREATE VIEW view_overdueMovies AS
 
-SELECT GROUP_CONCAT(' ', m.title) 'Rented movies', r.rentalDate 'Rented on',
-r.returnDate 'Returned on',
+SELECT GROUP_CONCAT(' ', m.title) 'Rented movies', rI.rentalDate 'Rented on',
+rI.returnDate 'Returned on',
 CONCAT(c.firstName, ' ', c.lastName) Customer, c.phoneNumber 'Customer phone'
 FROM rental r
 INNER JOIN rentalItem rI ON rI.rentalId = r.rentalId
@@ -1438,7 +1438,7 @@ INNER JOIN movie m ON m.movieId = mC.movieId
 INNER JOIN employee e on e.employeeId = r.employeeId
 INNER JOIN customer c ON c.customerId = r.customerId
 WHERE DATEDIFF(r.returnDate, r.rentalDate) > r.rentalDuration OR 
-(r.returnDate IS NULL AND DATEDIFF(CURRENT_DATE(), r.rentalDate) > 4)
+(rI.returnDate IS NULL AND DATEDIFF(CURRENT_DATE(), rI.rentalDate) > 4)
 GROUP BY r.rentalId 
 ORDER BY m.title;
 
