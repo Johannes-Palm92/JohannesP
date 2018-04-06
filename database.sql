@@ -1438,7 +1438,7 @@ INNER JOIN movie m ON m.movieId = mC.movieId
 INNER JOIN employee e on e.employeeId = r.employeeId
 INNER JOIN customer c ON c.customerId = r.customerId
 WHERE DATEDIFF(r.returnDate, r.rentalDate) > r.rentalDuration OR 
-(r.returnDate IS NULL AND DATEDIFF(CURRENT_DATE(), r.rentalDate) > r.rentalDuration)
+(r.returnDate IS NULL AND DATEDIFF(CURRENT_DATE(), r.rentalDate) > 4)
 GROUP BY r.rentalId 
 ORDER BY m.title;
 
