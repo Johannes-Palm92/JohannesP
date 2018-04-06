@@ -36,7 +36,7 @@ CALL sp_onRental(1,1,1);
 SELECT isItLate(1);
 SELECT isItLate(3);
 
--- Fråga 9 9. En Stored Procedure som ska köras när en film lämnas tillbaka.
+-- Fråga 9. En Stored Procedure som ska köras när en film lämnas tillbaka.
 -- Den ska använda sig av ovanstående funktion för att göra någon form av markering/utskrift om filmen är återlämnad för sent.
  
 CALL sp_onReturn(1);
