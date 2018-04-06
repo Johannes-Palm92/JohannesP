@@ -1448,8 +1448,8 @@ SELECT CONCAT(e.firstName, ' ',e.lastName) Employees,
 COUNT(rI.movieCopyId) 'Number of movies rented out'
 FROM employee e
 INNER JOIN rental r ON r.employeeId = e.employeeId
-INNER JOIN rentalItem rI ON rI.rentalId = r.rentalId
-WHERE r.rentalDate IS NOT NULL
+INNER JOIN rentalItem rI ON rI.rentalId = rI.rentalId
+WHERE rI.rentalDate IS NOT NULL
 GROUP BY e.employeeId
 ORDER BY COUNT(rI.movieCopyId) DESC;
 
