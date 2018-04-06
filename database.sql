@@ -1422,7 +1422,7 @@ INNER JOIN movieCopy mC ON mC.movieCopyId = rI.movieCopyId
 INNER JOIN movie m ON m.movieId = mC.movieId
 INNER JOIN employee e on e.employeeId = r.employeeId
 INNER JOIN customer c ON c.customerId = r.customerId
-WHERE r.returnDate IS NULL
+WHERE rI.returnDate IS NULL
 GROUP BY r.rentalId 
 ORDER BY m.title;
 
