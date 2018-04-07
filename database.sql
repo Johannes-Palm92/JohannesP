@@ -1381,6 +1381,151 @@ VALUES
 @employeeAdressId8
 );
 
+-- Old rentals
+
+-- rental 1
+
+INSERT INTO `johannesp`.`rental`
+(`customerId`,
+`employeeId`)
+VALUES
+(1,
+1);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(1,
+@independenceDayCopy1,
+"2018-03-01",
+"2018-03-10");
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(1,
+@interstellarCopy1,
+"2018-03-01",
+"2018-03-10");
+
+-- rental 2
+
+INSERT INTO `johannesp`.`rental`
+(`customerId`,
+`employeeId`)
+VALUES
+(2,
+2);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(2,
+@dumbDumberCopy1,
+"2018-03-05",
+"2018-03-11");
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(2,
+@interstellarCopy2,
+"2018-03-05",
+"2018-03-11");
+
+-- rental 3
+
+INSERT INTO `johannesp`.`rental`
+(`customerId`,
+`employeeId`)
+VALUES
+(3,
+1);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(3,
+@shawshankRedemptionCopy1,
+"2018-03-10",
+"2018-03-14");
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(3,
+@skylineCopy1,
+"2018-03-11",
+"2018-03-17");
+
+-- rental 4
+
+INSERT INTO `johannesp`.`rental`
+(`customerId`,
+`employeeId`)
+VALUES
+(1,
+1);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(4,
+@fightClubCopy1,
+"2018-03-20",
+"2018-03-25");
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(4,
+@lambsCopy1,
+"2018-03-20",
+"2018-03-25");
+
+-- rental 5, rented at the moment, late and not returned.
+
+INSERT INTO `johannesp`.`rental`
+(`customerId`,
+`employeeId`)
+VALUES
+(5,
+2);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(5,
+@interstellarCopy1,
+"2018-04-02",
+NULL);
 
 
 -- views
@@ -1533,7 +1678,7 @@ THEN
 SELECT isItLate(movcopyId);
 UPDATE `johannesp`.`rentalitem`
 SET
-`returnDate` = CURRENT_DATE
+`returnDate` = CURRENT_DATErental
 WHERE movieCopyId = movcopyId;
 
 
