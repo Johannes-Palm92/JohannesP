@@ -1527,6 +1527,56 @@ VALUES
 "2018-04-02",
 NULL);
 
+-- rental 6 rented at the moment, late and not returned.
+
+INSERT INTO `johannesp`.`rental`
+(`customerId`,
+`employeeId`)
+VALUES
+(10,
+1);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(6,
+@shawshankRedemptionCopy2,
+"2018-04-01",
+NULL);
+
+-- rental 7 rented at the moment, late and not returned.
+
+INSERT INTO `johannesp`.`rental`
+(`customerId`,
+`employeeId`)
+VALUES
+(9,
+2);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(7,
+@fightClubCopy2,
+"2018-03-30",
+NULL);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(7,
+@lambsCopy2,
+"2018-03-30",
+NULL);
 
 -- views
 

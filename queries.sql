@@ -41,4 +41,3 @@ SELECT isItLate(3);
  
 CALL sp_onReturn(1);
 CALL sp_onReturn(3);
-
