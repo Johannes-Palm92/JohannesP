@@ -1683,6 +1683,6 @@ WHERE movieCopyId = movcopyId;
 
 
 END IF;
-END$$
 
+END$$
 DELIMITER ;
