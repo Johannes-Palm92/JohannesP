@@ -40,4 +40,4 @@ SELECT isItLate(3);
 -- Den ska använda sig av ovanstående funktion för att göra någon form av markering/utskrift om filmen är återlämnad för sent.
  
 CALL sp_onReturn(1);
-
+CALL sp_onReturn(3);
