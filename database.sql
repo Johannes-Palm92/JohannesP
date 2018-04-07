@@ -1678,7 +1678,7 @@ THEN
 SELECT isItLate(movcopyId);
 UPDATE `johannesp`.`rentalitem`
 SET
-`returnDate` = CURRENT_DATErental
+`returnDate` = CURRENT_DATE
 WHERE movieCopyId = movcopyId;
 
 
