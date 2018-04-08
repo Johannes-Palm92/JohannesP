@@ -131,6 +131,14 @@ CREATE TABLE rentalItem(
 	REFERENCES movieCopy( movieCopyId )
 );
 
+
+CREATE TABLE rentalLog(
+	rentalLogId INT NOT NULL AUTO_INCREMENT,
+    movieCopyId INT NOT NULL, 
+    rentalDate DATE NOT NULL,
+    PRIMARY KEY(rentalLogId)
+);
+
 -- genre data
 
 INSERT INTO `johannesp`.`genre`
@@ -1380,6 +1388,23 @@ VALUES
 '076-8555995',
 @employeeAdressId8
 );
+
+
+-- Trigger rental-history
+
+USE `johannesp`;
+
+DELIMITER $$
+CREATE TRIGGER `rentalHistory`
+AFTER INSERT
+ON rentalItem
+FOR EACH ROW
+BEGIN
+INSERT INTO rentalLog (movieCopyId, rentalDate) VALUES (new.movieCopyId, new.rentalDate);
+
+END$$
+
+DELIMITER ;
 
 -- Old rentals
 

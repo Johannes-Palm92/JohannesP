@@ -41,3 +41,11 @@ SELECT isItLate(3);
  
 CALL sp_onReturn(1);
 CALL sp_onReturn(3);
+
+-- Fråga 10.Du ska underhålla en statistiktabell med hjälp av triggers. 
+-- När du lämnar ut en fil ska det göras en notering om det i din statistiktabell. 
+-- Du får inte lägga till informationen från din SP ovan, det ska skötas med triggers.
+
+SELECT * FROM rentalLog;
+CALL sp_onrental(1,1,1);
+SELECT * FROM rentalLog;
