@@ -1676,13 +1676,13 @@ ORDER BY COUNT(rI.movieCopyId) DESC;
 CREATE VIEW view_movieRentalsLastMonth AS
 
 SELECT m.title 'Title',
-COUNT(rI.movieCopyId) 'Times rented'
-FROM movie m
-INNER JOIN movieCopy mC ON mC.movieId = m.movieId
-INNER JOIN rentalItem rI ON rI.movieCopyId = mC.movieCopyId
-WHERE rI.rentalDate BETWEEN "2018-03-01" AND "2018-03-31"
+COUNT(r.movieCopyId) 'Times rented'
+FROM rentalLog r
+INNER JOIN movieCopy mc on mc.movieCopyId = r.movieCopyId
+INNER JOIN movie m on m.movieId = mc.movieId
+WHERE MONTH(r.rentalDate) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)
 GROUP BY m.title
-ORDER BY COUNT(rI.movieCopyId) DESC;
+ORDER BY COUNT(r.movieCopyId) DESC;
 
 USE `johannesp`;
 DROP procedure IF EXISTS `sp_onRental`;
