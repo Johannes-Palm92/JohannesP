@@ -131,6 +131,14 @@ CREATE TABLE rentalItem(
 	REFERENCES movieCopy( movieCopyId )
 );
 
+
+CREATE TABLE rentalLog(
+	rentalLogId INT NOT NULL AUTO_INCREMENT,
+    movieCopyId INT NOT NULL, 
+    rentalDate DATE NOT NULL,
+    PRIMARY KEY(rentalLogId)
+);
+
 -- genre data
 
 INSERT INTO `johannesp`.`genre`
@@ -1382,6 +1390,218 @@ VALUES
 );
 
 
+-- Trigger rental-history
+
+USE `johannesp`;
+
+DELIMITER $$
+CREATE TRIGGER `rentalHistory`
+AFTER INSERT
+ON rentalItem
+FOR EACH ROW
+BEGIN
+INSERT INTO rentalLog (movieCopyId, rentalDate) VALUES (new.movieCopyId, new.rentalDate);
+
+END$$
+
+DELIMITER ;
+
+-- Old rentals
+
+-- rental 1
+
+INSERT INTO `johannesp`.`rental`
+(`customerId`,
+`employeeId`)
+VALUES
+(1,
+1);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(1,
+@independenceDayCopy1,
+"2018-03-01",
+"2018-03-10");
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(1,
+@interstellarCopy1,
+"2018-03-01",
+"2018-03-10");
+
+-- rental 2
+
+INSERT INTO `johannesp`.`rental`
+(`customerId`,
+`employeeId`)
+VALUES
+(2,
+2);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(2,
+@dumbDumberCopy1,
+"2018-03-05",
+"2018-03-11");
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(2,
+@interstellarCopy2,
+"2018-03-05",
+"2018-03-11");
+
+-- rental 3
+
+INSERT INTO `johannesp`.`rental`
+(`customerId`,
+`employeeId`)
+VALUES
+(3,
+1);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(3,
+@shawshankRedemptionCopy1,
+"2018-03-10",
+"2018-03-14");
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(3,
+@skylineCopy1,
+"2018-03-11",
+"2018-03-17");
+
+-- rental 4
+
+INSERT INTO `johannesp`.`rental`
+(`customerId`,
+`employeeId`)
+VALUES
+(1,
+1);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(4,
+@fightClubCopy1,
+"2018-03-20",
+"2018-03-25");
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(4,
+@lambsCopy1,
+"2018-03-20",
+"2018-03-25");
+
+-- rental 5, rented at the moment, late and not returned.
+
+INSERT INTO `johannesp`.`rental`
+(`customerId`,
+`employeeId`)
+VALUES
+(5,
+2);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(5,
+@interstellarCopy1,
+"2018-04-02",
+NULL);
+
+-- rental 6 rented at the moment, late and not returned.
+
+INSERT INTO `johannesp`.`rental`
+(`customerId`,
+`employeeId`)
+VALUES
+(10,
+1);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(6,
+@shawshankRedemptionCopy2,
+"2018-04-01",
+NULL);
+
+-- rental 7 rented at the moment, late and not returned.
+
+INSERT INTO `johannesp`.`rental`
+(`customerId`,
+`employeeId`)
+VALUES
+(9,
+2);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(7,
+@fightClubCopy2,
+"2018-03-30",
+NULL);
+
+INSERT INTO `johannesp`.`rentalitem`
+(`rentalId`,
+`movieCopyId`,
+`rentalDate`,
+`returnDate`)
+VALUES
+(7,
+@lambsCopy2,
+"2018-03-30",
+NULL);
 
 -- views
 
@@ -1422,14 +1642,14 @@ INNER JOIN movieCopy mC ON mC.movieCopyId = rI.movieCopyId
 INNER JOIN movie m ON m.movieId = mC.movieId
 INNER JOIN employee e on e.employeeId = r.employeeId
 INNER JOIN customer c ON c.customerId = r.customerId
-WHERE r.returnDate IS NULL
+WHERE rI.returnDate IS NULL
 GROUP BY r.rentalId 
 ORDER BY m.title;
 
 CREATE VIEW view_overdueMovies AS
 
-SELECT GROUP_CONCAT(' ', m.title) 'Rented movies', r.rentalDate 'Rented on',
-r.returnDate 'Returned on',
+SELECT GROUP_CONCAT(' ', m.title) 'Rented movies', rI.rentalDate 'Rented on',
+rI.returnDate 'Returned on',
 CONCAT(c.firstName, ' ', c.lastName) Customer, c.phoneNumber 'Customer phone'
 FROM rental r
 INNER JOIN rentalItem rI ON rI.rentalId = r.rentalId
@@ -1437,8 +1657,8 @@ INNER JOIN movieCopy mC ON mC.movieCopyId = rI.movieCopyId
 INNER JOIN movie m ON m.movieId = mC.movieId
 INNER JOIN employee e on e.employeeId = r.employeeId
 INNER JOIN customer c ON c.customerId = r.customerId
-WHERE DATEDIFF(r.returnDate, r.rentalDate) > r.rentalDuration OR 
-(r.returnDate IS NULL AND DATEDIFF(CURRENT_DATE(), r.rentalDate) > r.rentalDuration)
+WHERE DATEDIFF(rI.returnDate, rI.rentalDate) > 4 OR 
+(rI.returnDate IS NULL AND DATEDIFF(CURRENT_DATE(), rI.rentalDate) > 4)
 GROUP BY r.rentalId 
 ORDER BY m.title;
 
@@ -1449,21 +1669,20 @@ COUNT(rI.movieCopyId) 'Number of movies rented out'
 FROM employee e
 INNER JOIN rental r ON r.employeeId = e.employeeId
 INNER JOIN rentalItem rI ON rI.rentalId = r.rentalId
-WHERE r.rentalDate IS NOT NULL
+WHERE rI.rentalDate IS NOT NULL
 GROUP BY e.employeeId
 ORDER BY COUNT(rI.movieCopyId) DESC;
 
 CREATE VIEW view_movieRentalsLastMonth AS
 
 SELECT m.title 'Title',
-COUNT(rI.movieCopyId) 'Times rented'
-FROM movie m
-INNER JOIN movieCopy mC ON mC.movieId = m.movieId
-INNER JOIN rentalItem rI ON rI.movieCopyId = mC.movieCopyId
-INNER JOIN rental r ON r.rentalId = rI.rentalId
-WHERE r.rentalDate BETWEEN "2018-03-01" AND "2018-03-31"
+COUNT(r.movieCopyId) 'Times rented'
+FROM rentalLog r
+INNER JOIN movieCopy mc on mc.movieCopyId = r.movieCopyId
+INNER JOIN movie m on m.movieId = mc.movieId
+WHERE MONTH(r.rentalDate) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)
 GROUP BY m.title
-ORDER BY COUNT(rI.movieCopyId) DESC;
+ORDER BY COUNT(r.movieCopyId) DESC;
 
 USE `johannesp`;
 DROP procedure IF EXISTS `sp_onRental`;
@@ -1500,4 +1719,45 @@ END IF;
 
 END$$
 
+DELIMITER ;
+
+USE `johannesp`;
+DROP function IF EXISTS `isItLate`;
+
+DELIMITER $$
+USE `johannesp`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `isItLate`(movcopyId VARCHAR(20)) RETURNS varchar(20) CHARSET utf8
+BEGIN
+
+IF((SELECT rI.rentalDate FROM rentalItem rI
+WHERE (rI.movieCopyId = movcopyId AND rI.returnDate IS NULL) AND DATEDIFF(CURRENT_DATE, rI.rentalDate) > 4))
+THEN
+RETURN 'True';
+ELSE
+RETURN 'False';
+END IF;
+END$$
+
+DELIMITER ;
+
+USE `johannesp`;
+DROP procedure IF EXISTS `sp_onReturn`;
+
+DELIMITER $$
+USE `johannesp`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_onReturn`(IN movcopyId VARCHAR(20))
+BEGIN
+
+IF ((SELECT COUNT(*) FROM rentalItem WHERE movcopyId = movieCopyId AND returnDate IS NULL) = 1)
+THEN
+SELECT isItLate(movcopyId);
+UPDATE `johannesp`.`rentalitem`
+SET
+`returnDate` = CURRENT_DATE
+WHERE movieCopyId = movcopyId;
+
+
+END IF;
+
+END$$
 DELIMITER ;
