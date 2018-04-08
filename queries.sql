@@ -46,6 +46,7 @@ CALL sp_onReturn(3);
 -- När du lämnar ut en fil ska det göras en notering om det i din statistiktabell. 
 -- Du får inte lägga till informationen från din SP ovan, det ska skötas med triggers.
 
+SHOW TRIGGERS;
 SELECT * FROM rentalLog;
-CALL sp_onrental(1,1,1);
+CALL sp_onrental(2,2,2);
 SELECT * FROM rentalLog;
