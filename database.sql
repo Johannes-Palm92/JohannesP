@@ -1,1763 +1,1763 @@
-/*!40101 SET NAMES utf8 */;
+/*!40101 set names utf8 */;
 
-DROP DATABASE IF EXISTS johannesp;
+drop database if exists johannesp;
 
-CREATE DATABASE johannesp;
+create database johannesp;
 
-USE johannesp;
+use johannesp;
 
 
 
-CREATE TABLE address(
-	addressId INT NOT NULL AUTO_INCREMENT,
-    addressLine1 VARCHAR(20) NOT NULL,
-    addressLine2 VARCHAR(20) NULL,
-    zipCode VARCHAR(6) NOT NULL,
-    city VARCHAR(20) NOT NULL,
-	PRIMARY KEY ( addressId )
+create table address(
+	addressid int not null auto_increment,
+    addressline1 varchar(20) not null,
+    addressline2 varchar(20) null,
+    zipcode varchar(6) not null,
+    city varchar(20) not null,
+	primary key ( addressid )
 );
 
 
-CREATE TABLE director(
-	directorId INT NOT NULL AUTO_INCREMENT,
-    firstName VARCHAR(50) NOT NULL,
-    lastName VARCHAR(50) NOT NULL,
-    PRIMARY KEY ( directorId )
+create table director(
+	directorid int not null auto_increment,
+    firstname varchar(50) not null,
+    lastname varchar(50) not null,
+    primary key ( directorid )
 );
 
 
-CREATE TABLE movie(
-   movieId INT NOT NULL AUTO_INCREMENT,
-   title VARCHAR(50) NOT NULL,
-   description VARCHAR(600) NOT NULL,
-   realeseYear DATE,
-   lengthInMinutes INT NOT NULL,
-   directorId INT NULL,
-   FOREIGN KEY (directorId)
-   REFERENCES director (directorId),
-   PRIMARY KEY ( movieId )
+create table movie(
+   movieid int not null auto_increment,
+   title varchar(50) not null,
+   description varchar(600) not null,
+   realeseyear date,
+   lengthinminutes int not null,
+   directorid int null,
+   foreign key (directorid)
+   references director (directorid),
+   primary key ( movieid )
 );
 
 
-CREATE TABLE actor(
-	actorId INT NOT NULL AUTO_INCREMENT,
-    firstName VARCHAR(50) NOT NULL,
-    lastName VARCHAR(50) NOT NULL,
-    PRIMARY KEY ( actorId )
+create table actor(
+	actorid int not null auto_increment,
+    firstname varchar(50) not null,
+    lastname varchar(50) not null,
+    primary key ( actorid )
 );
 
-CREATE TABLE genre(
-	genreId INT NOT NULL AUTO_INCREMENT,
-    genre VARCHAR(50) NOT NULL,
-    PRIMARY KEY ( genreId )
-);
-
-
-CREATE TABLE customer(
-   customerId INT NOT NULL AUTO_INCREMENT,
-   firstName VARCHAR(50) NOT NULL,
-   lastName VARCHAR(50) NOT NULL,
-   email VARCHAR(50) NOT NULL,
-   phoneNumber VARCHAR (20) NOT NULL,
-   addressId INT NOT NULL,
-   KEY adressId ( addressId ),
-   FOREIGN KEY (addressId)
-   REFERENCES address (addressId),
-   PRIMARY KEY ( customerId )
+create table genre(
+	genreid int not null auto_increment,
+    genre varchar(50) not null,
+    primary key ( genreid )
 );
 
 
-CREATE TABLE employee(
-   employeeId INT NOT NULL AUTO_INCREMENT,
-   firstName VARCHAR(50) NOT NULL,
-   lastName VARCHAR(50) NOT NULL,
-   email VARCHAR(50) NOT NULL,
-   phoneNumber VARCHAR (20) NOT NULL,
-   addressId INT NOT NULL,
-   FOREIGN KEY (addressId)
-   REFERENCES address(addressId),
-   PRIMARY KEY ( employeeId )
+create table customer(
+   customerid int not null auto_increment,
+   firstname varchar(50) not null,
+   lastname varchar(50) not null,
+   email varchar(50) not null,
+   phonenumber varchar (20) not null,
+   addressid int not null,
+   key adressid ( addressid ),
+   foreign key (addressid)
+   references address (addressid),
+   primary key ( customerid )
 );
 
 
-    CREATE TABLE movieActor(
-	actorId INT NOT NULL,
-    movieId INT NOT NULL,
-    FOREIGN KEY ( actorId )
-    REFERENCES actor( actorId ),
-    FOREIGN KEY ( movieId ) 
-    REFERENCES movie( movieId )
+create table employee(
+   employeeid int not null auto_increment,
+   firstname varchar(50) not null,
+   lastname varchar(50) not null,
+   email varchar(50) not null,
+   phonenumber varchar (20) not null,
+   addressid int not null,
+   foreign key (addressid)
+   references address(addressid),
+   primary key ( employeeid )
 );
 
 
-    CREATE TABLE movieGenre(
-	genreId INT NOT NULL,
-    movieId INT NOT NULL,
-    FOREIGN KEY ( genreId )
-    REFERENCES genre( genreId ),
-    FOREIGN KEY ( movieId ) 
-    REFERENCES movie( movieId )
+    create table movieactor(
+	actorid int not null,
+    movieid int not null,
+    foreign key ( actorid )
+    references actor( actorid ),
+    foreign key ( movieid ) 
+    references movie( movieid )
 );
 
 
-CREATE TABLE movieCopy(
-	movieCopyId INT NOT NULL AUTO_INCREMENT,
-	movieId INT NOT NULL,
-    FOREIGN KEY ( movieId ) 
-    REFERENCES movie( movieId ),
-    PRIMARY KEY ( movieCopyId )
-);
-
-CREATE TABLE rental(
-	rentalId INT NOT NULL AUTO_INCREMENT,
-	customerId INT NOT NULL,
-	employeeId INT NOT NULL,
-    FOREIGN KEY ( customerId )
-    REFERENCES customer( customerId ),
-    FOREIGN KEY ( employeeId )
-    REFERENCES employee( employeeId ),
-    PRIMARY KEY ( rentalId )
+    create table moviegenre(
+	genreid int not null,
+    movieid int not null,
+    foreign key ( genreid )
+    references genre( genreid ),
+    foreign key ( movieid ) 
+    references movie( movieid )
 );
 
 
-CREATE TABLE rentalItem(
-	rentalId INT NOT NULL,
-    movieCopyId INT NOT NULL,
-    rentalDate DATE NOT NULL,
-    returnDate DATE NULL,
-    FOREIGN KEY ( rentalId )
-	REFERENCES rental( rentalId ),
-	FOREIGN KEY ( movieCopyId )
-	REFERENCES movieCopy( movieCopyId )
+create table moviecopy(
+	moviecopyid int not null auto_increment,
+	movieid int not null,
+    foreign key ( movieid ) 
+    references movie( movieid ),
+    primary key ( moviecopyid )
+);
+
+create table rental(
+	rentalid int not null auto_increment,
+	customerid int not null,
+	employeeid int not null,
+    foreign key ( customerid )
+    references customer( customerid ),
+    foreign key ( employeeid )
+    references employee( employeeid ),
+    primary key ( rentalid )
 );
 
 
-CREATE TABLE rentalLog(
-	rentalLogId INT NOT NULL AUTO_INCREMENT,
-    movieCopyId INT NOT NULL, 
-    rentalDate DATE NOT NULL,
-    PRIMARY KEY(rentalLogId)
+create table rentalitem(
+	rentalid int not null,
+    moviecopyid int not null,
+    rentaldate date not null,
+    returndate date null,
+    foreign key ( rentalid )
+	references rental( rentalid ),
+	foreign key ( moviecopyid )
+	references moviecopy( moviecopyid )
+);
+
+
+create table rentallog(
+	rentallogid int not null auto_increment,
+    moviecopyid int not null, 
+    rentaldate date not null,
+    primary key(rentallogid)
 );
 
 -- genre data
 
-INSERT INTO `johannesp`.`genre`
+insert into `johannesp`.`genre`
 (`genre`)
-VALUES
-('Comedy');
+values
+('comedy');
 
-SELECT LAST_INSERT_ID() INTO @comedy;
+select last_insert_id() into @comedy;
 
-INSERT INTO `johannesp`.`genre`
+insert into `johannesp`.`genre`
 (`genre`)
-VALUES
-('Adventure');
+values
+('adventure');
 
-SELECT LAST_INSERT_ID() INTO @adventure;
+select last_insert_id() into @adventure;
 
-INSERT INTO `johannesp`.`genre`
+insert into `johannesp`.`genre`
 (`genre`)
-VALUES
-('Drama');
+values
+('drama');
 
-SELECT LAST_INSERT_ID() INTO @drama;
+select last_insert_id() into @drama;
 
-INSERT INTO `johannesp`.`genre`
+insert into `johannesp`.`genre`
 (`genre`)
-VALUES
-('Sci-Fi');
+values
+('sci-fi');
 
-SELECT LAST_INSERT_ID() INTO @sciFi;
+select last_insert_id() into @scifi;
 
-INSERT INTO `johannesp`.`genre`
+insert into `johannesp`.`genre`
 (`genre`)
-VALUES
-('Romance');
+values
+('romance');
 
-SELECT LAST_INSERT_ID() INTO @romance;
+select last_insert_id() into @romance;
 
-INSERT INTO `johannesp`.`genre`
+insert into `johannesp`.`genre`
 (`genre`)
-VALUES
-('War');
+values
+('war');
 
-SELECT LAST_INSERT_ID() INTO @war;
+select last_insert_id() into @war;
 
-INSERT INTO `johannesp`.`genre`
+insert into `johannesp`.`genre`
 (`genre`)
-VALUES
-('Action');
+values
+('action');
 
-SELECT LAST_INSERT_ID() INTO @actions; -- Actions istället för action eftersom action är reserverat ord.
+select last_insert_id() into @actions; -- actions istället för action eftersom action är reserverat ord.
 
-INSERT INTO `johannesp`.`genre`
+insert into `johannesp`.`genre`
 (`genre`)
-VALUES
-('Thriller');
+values
+('thriller');
 
-SELECT LAST_INSERT_ID() INTO @thriller;
+select last_insert_id() into @thriller;
 
-INSERT INTO `johannesp`.`genre`
+insert into `johannesp`.`genre`
 (`genre`)
-VALUES
-('Crime');
+values
+('crime');
 
-SELECT LAST_INSERT_ID() INTO @crime;
+select last_insert_id() into @crime;
 
 -- actor data
 
-INSERT INTO `johannesp`.`actor`
-(`firstName`,
-`lastName`)
-VALUES
-('Will',
-'Smith');
+insert into `johannesp`.`actor`
+(`firstname`,
+`lastname`)
+values
+('will',
+'smith');
 
-SELECT LAST_INSERT_ID() INTO @willSmith;
+select last_insert_id() into @willsmith;
 
-INSERT INTO `johannesp`.`actor`
-(`firstName`,
-`lastName`)
-VALUES
-('Jeff',
-'Goldblum');
+insert into `johannesp`.`actor`
+(`firstname`,
+`lastname`)
+values
+('jeff',
+'goldblum');
 
-SELECT LAST_INSERT_ID() INTO @jeffGoldblum;
+select last_insert_id() into @jeffgoldblum;
 
-INSERT INTO `johannesp`.`actor`
-(`firstName`,
-`lastName`)
-VALUES
-('Matthew',
-'McConaughey');
+insert into `johannesp`.`actor`
+(`firstname`,
+`lastname`)
+values
+('matthew',
+'mcconaughey');
 
-SELECT LAST_INSERT_ID() INTO @matthewMcConaughey;
+select last_insert_id() into @matthewmcconaughey;
 
-INSERT INTO `johannesp`.`actor`
-(`firstName`,
-`lastName`)
-VALUES
-('Anne',
-'Hathaway');
+insert into `johannesp`.`actor`
+(`firstname`,
+`lastname`)
+values
+('anne',
+'hathaway');
 
-SELECT LAST_INSERT_ID() INTO @anneHathaway;
+select last_insert_id() into @annehathaway;
 
-INSERT INTO `johannesp`.`actor`
-(`firstName`,
-`lastName`)
-VALUES
-('Brad',
-'Pitt');
+insert into `johannesp`.`actor`
+(`firstname`,
+`lastname`)
+values
+('brad',
+'pitt');
 
-SELECT LAST_INSERT_ID() INTO @bradPitt;
+select last_insert_id() into @bradpitt;
 
-INSERT INTO `johannesp`.`actor`
-(`firstName`,
-`lastName`)
-VALUES
-('Edward',
-'Norton');
+insert into `johannesp`.`actor`
+(`firstname`,
+`lastname`)
+values
+('edward',
+'norton');
 
-SELECT LAST_INSERT_ID() INTO @edwardNorton;
+select last_insert_id() into @edwardnorton;
 
-INSERT INTO `johannesp`.`actor`
-(`firstName`,
-`lastName`)
-VALUES
-('Kate',
-'Hudson');
+insert into `johannesp`.`actor`
+(`firstname`,
+`lastname`)
+values
+('kate',
+'hudson');
 
-SELECT LAST_INSERT_ID() INTO @kateHudson;
+select last_insert_id() into @katehudson;
 
-INSERT INTO `johannesp`.`actor`
-(`firstName`,
-`lastName`)
-VALUES
-('Patrick',
-'Fugit');
+insert into `johannesp`.`actor`
+(`firstname`,
+`lastname`)
+values
+('patrick',
+'fugit');
 
-SELECT LAST_INSERT_ID() INTO @patrickFugit;
+select last_insert_id() into @patrickfugit;
 
-INSERT INTO `johannesp`.`actor`
-(`firstName`,
-`lastName`)
-VALUES
-('Anthony',
-'Hopkins');
+insert into `johannesp`.`actor`
+(`firstname`,
+`lastname`)
+values
+('anthony',
+'hopkins');
 
-SELECT LAST_INSERT_ID() INTO @anthonyHopkins;
+select last_insert_id() into @anthonyhopkins;
 
-INSERT INTO `johannesp`.`actor`
-(`firstName`,
-`lastName`)
-VALUES
-('Jodie',
-'Foster');
+insert into `johannesp`.`actor`
+(`firstname`,
+`lastname`)
+values
+('jodie',
+'foster');
 
-SELECT LAST_INSERT_ID() INTO @jodieFoster;
+select last_insert_id() into @jodiefoster;
 
-INSERT INTO `johannesp`.`actor`
-(`firstName`,
-`lastName`)
-VALUES
-('Humphrey',
-'Bogart');
+insert into `johannesp`.`actor`
+(`firstname`,
+`lastname`)
+values
+('humphrey',
+'bogart');
  
-SELECT LAST_INSERT_ID() INTO @humphreyBogart;
+select last_insert_id() into @humphreybogart;
 
-INSERT INTO `johannesp`.`actor`
-(`firstName`,
-`lastName`)
-VALUES
-('Ingrid',
-'Bergman');
+insert into `johannesp`.`actor`
+(`firstname`,
+`lastname`)
+values
+('ingrid',
+'bergman');
 
-SELECT LAST_INSERT_ID() INTO @ingridBergman;
+select last_insert_id() into @ingridbergman;
 
-INSERT INTO `johannesp`.`actor`
-(`firstName`,
-`lastName`)
-VALUES
-('Morgan',
-'Freeman');
+insert into `johannesp`.`actor`
+(`firstname`,
+`lastname`)
+values
+('morgan',
+'freeman');
 
-SELECT LAST_INSERT_ID() INTO @morganFreeman;
+select last_insert_id() into @morganfreeman;
 
-INSERT INTO `johannesp`.`actor`
-(`firstName`,
-`lastName`)
-VALUES
-('Tim',
-'Robbins');
+insert into `johannesp`.`actor`
+(`firstname`,
+`lastname`)
+values
+('tim',
+'robbins');
 
-SELECT LAST_INSERT_ID() INTO @timRobbins;
+select last_insert_id() into @timrobbins;
 
-INSERT INTO `johannesp`.`actor`
-(`firstName`,
-`lastName`)
-VALUES
-('Jim',
-'Carrey');
+insert into `johannesp`.`actor`
+(`firstname`,
+`lastname`)
+values
+('jim',
+'carrey');
 
-SELECT LAST_INSERT_ID() INTO @jimCarrey;
+select last_insert_id() into @jimcarrey;
 
-INSERT INTO `johannesp`.`actor`
-(`firstName`,
-`lastName`)
-VALUES
-('Jeff',
-'Daniels');
+insert into `johannesp`.`actor`
+(`firstname`,
+`lastname`)
+values
+('jeff',
+'daniels');
 
-SELECT LAST_INSERT_ID() INTO @jeffDaniels;
+select last_insert_id() into @jeffdaniels;
 
-INSERT INTO `johannesp`.`actor`
-(`firstName`,
-`lastName`)
-VALUES
-('Eric',
-'Balfour');
+insert into `johannesp`.`actor`
+(`firstname`,
+`lastname`)
+values
+('eric',
+'balfour');
  
-SELECT LAST_INSERT_ID() INTO @ericBalfour;
+select last_insert_id() into @ericbalfour;
  
-INSERT INTO `johannesp`.`actor`
-(`firstName`,
-`lastName`)
-VALUES
-('Donald',
-'Faison');
+insert into `johannesp`.`actor`
+(`firstname`,
+`lastname`)
+values
+('donald',
+'faison');
 
-SELECT LAST_INSERT_ID() INTO @donaldFaison;
+select last_insert_id() into @donaldfaison;
 
-INSERT INTO `johannesp`.`actor`
-(`firstName`,
-`lastName`)
-VALUES
-('Pauley',
-'Shore');
+insert into `johannesp`.`actor`
+(`firstname`,
+`lastname`)
+values
+('pauley',
+'shore');
  
-SELECT LAST_INSERT_ID() INTO @pauleyShore;
+select last_insert_id() into @pauleyshore;
  
-INSERT INTO `johannesp`.`actor`
-(`firstName`,
-`lastName`)
-VALUES
-('Stephen',
-'Baldwin');
+insert into `johannesp`.`actor`
+(`firstname`,
+`lastname`)
+values
+('stephen',
+'baldwin');
 
-SELECT LAST_INSERT_ID() INTO @stephenBaldwin;
+select last_insert_id() into @stephenbaldwin;
 
 -- director data
 
-INSERT INTO `johannesp`.`director`
-(`firstName`,
-`lastName`)
-VALUES
-('Roland',
-'Emmerich');
+insert into `johannesp`.`director`
+(`firstname`,
+`lastname`)
+values
+('roland',
+'emmerich');
 
-SELECT LAST_INSERT_ID() INTO @rolandEmmerich;
+select last_insert_id() into @rolandemmerich;
 
-INSERT INTO `johannesp`.`director`
-(`firstName`,
-`lastName`)
-VALUES
-('Christoffer',
-'Nolan');
+insert into `johannesp`.`director`
+(`firstname`,
+`lastname`)
+values
+('christoffer',
+'nolan');
 
-SELECT LAST_INSERT_ID() INTO @christofferNolan;
+select last_insert_id() into @christoffernolan;
 
-INSERT INTO `johannesp`.`director`
-(`firstName`,
-`lastName`)
-VALUES
-('David',
-'Fincher');
+insert into `johannesp`.`director`
+(`firstname`,
+`lastname`)
+values
+('david',
+'fincher');
 
-SELECT LAST_INSERT_ID() INTO @davidFincher;
+select last_insert_id() into @davidfincher;
 
-INSERT INTO `johannesp`.`director`
-(`firstName`,
-`lastName`)
-VALUES
-('Cameron',
-'Crowe');
+insert into `johannesp`.`director`
+(`firstname`,
+`lastname`)
+values
+('cameron',
+'crowe');
 
-SELECT LAST_INSERT_ID() INTO @cameronCrowe;
+select last_insert_id() into @cameroncrowe;
 
-INSERT INTO `johannesp`.`director`
-(`firstName`,
-`lastName`)
-VALUES
-('Jonathan',
-'Demme');
+insert into `johannesp`.`director`
+(`firstname`,
+`lastname`)
+values
+('jonathan',
+'demme');
 
-SELECT LAST_INSERT_ID() INTO @jonathanDemme;
+select last_insert_id() into @jonathandemme;
 
-INSERT INTO `johannesp`.`director`
-(`firstName`,
-`lastName`)
-VALUES
-('Max',
-'Steiner');
+insert into `johannesp`.`director`
+(`firstname`,
+`lastname`)
+values
+('max',
+'steiner');
 
-SELECT LAST_INSERT_ID() INTO @maxSteiner;
+select last_insert_id() into @maxsteiner;
 
-INSERT INTO `johannesp`.`director`
-(`firstName`,
-`lastName`)
-VALUES
-('Frank',
-'Darabont');
+insert into `johannesp`.`director`
+(`firstname`,
+`lastname`)
+values
+('frank',
+'darabont');
 
-SELECT LAST_INSERT_ID() INTO @frankDarabont;
+select last_insert_id() into @frankdarabont;
 
-INSERT INTO `johannesp`.`director`
-(`firstName`,
-`lastName`)
-VALUES
-('Peter',
-'Farrelley');
+insert into `johannesp`.`director`
+(`firstname`,
+`lastname`)
+values
+('peter',
+'farrelley');
 
-SELECT LAST_INSERT_ID() INTO @peterFarrelley;
+select last_insert_id() into @peterfarrelley;
 
-INSERT INTO `johannesp`.`director`
-(`firstName`,
-`lastName`)
-VALUES
-('Greg',
-'Strause');
+insert into `johannesp`.`director`
+(`firstname`,
+`lastname`)
+values
+('greg',
+'strause');
 
-SELECT LAST_INSERT_ID() INTO @gregStrause;
+select last_insert_id() into @gregstrause;
 
-INSERT INTO `johannesp`.`director`
-(`firstName`,
-`lastName`)
-VALUES
-('Jason',
-'Bloom');
+insert into `johannesp`.`director`
+(`firstname`,
+`lastname`)
+values
+('jason',
+'bloom');
 
-SELECT LAST_INSERT_ID() INTO @jasonBloom;
+select last_insert_id() into @jasonbloom;
 
 -- movie data
 
 -- film 1
 
-INSERT INTO `johannesp`.`movie`
+insert into `johannesp`.`movie`
 (`title`,
 `description`,
-`realeseYear`,
-`lengthInMinutes`,
-`directorId`)
-VALUES
-('Idependence day',
-'Ett gigantiskt rymdskepp från en utomjordisk civilisation flyger in över månen och skickar ut mindre skepp som svävar över New York, Los Angeles, Washington, DC, Moskva, London, Paris med flera storstäder. De är så stora att de får städerna att bokstavligen falla i skugga. Mänskligheten är till synes försvarslös mot utomjordingarnas synnerligen effektiva massförstörelsevapen. Utomjordingarna är nomadiska parasiter som förflyttar sig från planet till planet efter att alla naturresurser förbrukats. Deras nästa mål är jorden.',
+`realeseyear`,
+`lengthinminutes`,
+`directorid`)
+values
+('idependence day',
+'ett gigantiskt rymdskepp från en utomjordisk civilisation flyger in över månen och skickar ut mindre skepp som svävar över new york, los angeles, washington, dc, moskva, london, paris med flera storstäder. de är så stora att de får städerna att bokstavligen falla i skugga. mänskligheten är till synes försvarslös mot utomjordingarnas synnerligen effektiva massförstörelsevapen. utomjordingarna är nomadiska parasiter som förflyttar sig från planet till planet efter att alla naturresurser förbrukats. deras nästa mål är jorden.',
 '1996-10-03',
 145,
-@rolandEmmerich);
+@rolandemmerich);
 
-SELECT LAST_INSERT_ID() INTO @independeceDay;
+select last_insert_id() into @independeceday;
 
  
-INSERT INTO `johannesp`.`movieactor`
-(`actorId`,
-`movieId`)
-VALUES
-(@willSmith,
-@independeceDay);
+insert into `johannesp`.`movieactor`
+(`actorid`,
+`movieid`)
+values
+(@willsmith,
+@independeceday);
 
-INSERT INTO `johannesp`.`movieactor`
-(`actorId`,
-`movieId`)
-VALUES
-(@jeffGoldblum,
-@independeceDay);
+insert into `johannesp`.`movieactor`
+(`actorid`,
+`movieid`)
+values
+(@jeffgoldblum,
+@independeceday);
 
-INSERT INTO `johannesp`.`moviegenre`
-(`genreId`,
-`movieId`)
-VALUES
+insert into `johannesp`.`moviegenre`
+(`genreid`,
+`movieid`)
+values
 (@actions,
-@independeceDay);
+@independeceday);
 
-INSERT INTO `johannesp`.`moviegenre`
-(`genreId`,
-`movieId`)
-VALUES
+insert into `johannesp`.`moviegenre`
+(`genreid`,
+`movieid`)
+values
 (@adventure,
-@independeceDay);
+@independeceday);
 
-INSERT INTO `johannesp`.`moviegenre`
-(`genreId`,
-`movieId`)
-VALUES
-(@sciFi,
-@independeceDay);
+insert into `johannesp`.`moviegenre`
+(`genreid`,
+`movieid`)
+values
+(@scifi,
+@independeceday);
 
 -- film 2
 
-INSERT INTO `johannesp`.`movie`
+insert into `johannesp`.`movie`
 (`title`,
 `description`,
-`realeseYear`,
-`lengthInMinutes`,
-`directorId`)
-VALUES
-('Interstellar',
-'Interstellar är en amerikansk-brittisk episk science fiction-film om en grupp astronauter som via ett maskhål ger sig ut på en interstellär resa.',
+`realeseyear`,
+`lengthinminutes`,
+`directorid`)
+values
+('interstellar',
+'interstellar är en amerikansk-brittisk episk science fiction-film om en grupp astronauter som via ett maskhål ger sig ut på en interstellär resa.',
 '2014-11-07',
 169,
-@christofferNolan);
+@christoffernolan);
 
-SELECT LAST_INSERT_ID() INTO @interstellar;
+select last_insert_id() into @interstellar;
  
-INSERT INTO `johannesp`.`movieactor`
-(`actorId`,
-`movieId`)
-VALUES
-(@matthewMcConaughey,
+insert into `johannesp`.`movieactor`
+(`actorid`,
+`movieid`)
+values
+(@matthewmcconaughey,
 @interstellar);
 
-INSERT INTO `johannesp`.`movieactor`
-(`actorId`,
-`movieId`)
-VALUES
-(@anneHathaway,
+insert into `johannesp`.`movieactor`
+(`actorid`,
+`movieid`)
+values
+(@annehathaway,
 @interstellar);
 
-INSERT INTO `johannesp`.`moviegenre`
-(`genreId`,
-`movieId`)
-VALUES
+insert into `johannesp`.`moviegenre`
+(`genreid`,
+`movieid`)
+values
 (@adventure,
 @interstellar);
 
-INSERT INTO `johannesp`.`moviegenre`
-(`genreId`,
-`movieId`)
-VALUES
+insert into `johannesp`.`moviegenre`
+(`genreid`,
+`movieid`)
+values
 (@drama,
 @interstellar);
 
-INSERT INTO `johannesp`.`moviegenre`
-(`genreId`,
-`movieId`)
-VALUES
-(@sciFi,
+insert into `johannesp`.`moviegenre`
+(`genreid`,
+`movieid`)
+values
+(@scifi,
 @interstellar);
 
 -- film3
 
-INSERT INTO `johannesp`.`movie`
+insert into `johannesp`.`movie`
 (`title`,
 `description`,
-`realeseYear`,
-`lengthInMinutes`,
-`directorId`)
-VALUES
-('Fight Club',
-'Filmens berättare (Edward Norton), som inte nämns vid namn, är en kroniskt sömnlös man som desperat försöker fly från sitt tråkiga liv. En dag träffar han Tyler Durden (Brad Pitt) och allting förändras. ',
+`realeseyear`,
+`lengthinminutes`,
+`directorid`)
+values
+('fight club',
+'filmens berättare (edward norton), som inte nämns vid namn, är en kroniskt sömnlös man som desperat försöker fly från sitt tråkiga liv. en dag träffar han tyler durden (brad pitt) och allting förändras. ',
 '1999-09-10',
 139,
-@davidFincher);
+@davidfincher);
 
-SELECT LAST_INSERT_ID() INTO @fightClub;
+select last_insert_id() into @fightclub;
  
-INSERT INTO `johannesp`.`movieactor`
-(`actorId`,
-`movieId`)
-VALUES
-(@bradPitt,
-@fightClub);
+insert into `johannesp`.`movieactor`
+(`actorid`,
+`movieid`)
+values
+(@bradpitt,
+@fightclub);
 
-INSERT INTO `johannesp`.`movieactor`
-(`actorId`,
-`movieId`)
-VALUES
-(@edwardNorton,
-@fightClub);
+insert into `johannesp`.`movieactor`
+(`actorid`,
+`movieid`)
+values
+(@edwardnorton,
+@fightclub);
 
-INSERT INTO `johannesp`.`moviegenre`
-(`genreId`,
-`movieId`)
-VALUES
+insert into `johannesp`.`moviegenre`
+(`genreid`,
+`movieid`)
+values
 (@drama,
-@fightClub);
+@fightclub);
 
 -- film 4
 
-INSERT INTO `johannesp`.`movie`
+insert into `johannesp`.`movie`
 (`title`,
 `description`,
-`realeseYear`,
-`lengthInMinutes`,
-`directorId`)
-VALUES
-('Almost Famous',
-'Året är 1973. William är 15 år gammal och hans mamma vill att han ska bli advokat en dag. William själv har dock helt andra planer. Hans stora intresse är rockmusik och han vill bli rockjournalist. Och plötsligt en dag verkar det som att hans dröm kan bli verklighet.',
+`realeseyear`,
+`lengthinminutes`,
+`directorid`)
+values
+('almost famous',
+'året är 1973. william är 15 år gammal och hans mamma vill att han ska bli advokat en dag. william själv har dock helt andra planer. hans stora intresse är rockmusik och han vill bli rockjournalist. och plötsligt en dag verkar det som att hans dröm kan bli verklighet.',
 '2001-01-19',
 155,
-@cameronCrowe);
+@cameroncrowe);
 
-SELECT LAST_INSERT_ID() INTO @almostFamous;
+select last_insert_id() into @almostfamous;
  
- INSERT INTO `johannesp`.`movieactor`
-(`actorId`,
-`movieId`)
-VALUES
-(@kateHudson,
-@almostFamous);
+ insert into `johannesp`.`movieactor`
+(`actorid`,
+`movieid`)
+values
+(@katehudson,
+@almostfamous);
 
-INSERT INTO `johannesp`.`movieactor`
-(`actorId`,
-`movieId`)
-VALUES
-(@patrickFugit,
-@almostFamous);
+insert into `johannesp`.`movieactor`
+(`actorid`,
+`movieid`)
+values
+(@patrickfugit,
+@almostfamous);
 
-INSERT INTO `johannesp`.`moviegenre`
-(`genreId`,
-`movieId`)
-VALUES
+insert into `johannesp`.`moviegenre`
+(`genreid`,
+`movieid`)
+values
 (@adventure,
-@almostFamous);
+@almostfamous);
 
-INSERT INTO `johannesp`.`moviegenre`
-(`genreId`,
-`movieId`)
-VALUES
+insert into `johannesp`.`moviegenre`
+(`genreid`,
+`movieid`)
+values
 (@comedy,
-@almostFamous);
+@almostfamous);
 
-INSERT INTO `johannesp`.`moviegenre`
-(`genreId`,
-`movieId`)
-VALUES
+insert into `johannesp`.`moviegenre`
+(`genreid`,
+`movieid`)
+values
 (@drama,
-@almostFamous);
+@almostfamous);
 
 -- film 5
 
-INSERT INTO `johannesp`.`movie`
+insert into `johannesp`.`movie`
 (`title`,
 `description`,
-`realeseYear`,
-`lengthInMinutes`,
-`directorId`)
-VALUES
-('The Silence of the Lambs',
-'Seriemördaren "Buffalo Bill" kidnappar, mördar och skinnflår unga kvinnor. En FBI-agent under utbildning, Clarice Starling, skickas till den inspärrade, extremt farlige, psykopatiske seriemördaren och psykiatern Hannibal Lecter för att möjligen få någon information om mördaren från honom.',
+`realeseyear`,
+`lengthinminutes`,
+`directorid`)
+values
+('the silence of the lambs',
+'seriemördaren "buffalo bill" kidnappar, mördar och skinnflår unga kvinnor. en fbi-agent under utbildning, clarice starling, skickas till den inspärrade, extremt farlige, psykopatiske seriemördaren och psykiatern hannibal lecter för att möjligen få någon information om mördaren från honom.',
 '1991-02-14',
 118,
-@jonathanDemme);
+@jonathandemme);
 
-SELECT LAST_INSERT_ID() INTO @lambs;
+select last_insert_id() into @lambs;
  
- INSERT INTO `johannesp`.`movieactor`
-(`actorId`,
-`movieId`)
-VALUES
-(@anthonyHopkins,
+ insert into `johannesp`.`movieactor`
+(`actorid`,
+`movieid`)
+values
+(@anthonyhopkins,
 @lambs);
  
-INSERT INTO `johannesp`.`movieactor`
-(`actorId`,
-`movieId`)
-VALUES
-(@jodieFoster,
+insert into `johannesp`.`movieactor`
+(`actorid`,
+`movieid`)
+values
+(@jodiefoster,
 @lambs);
 
-INSERT INTO `johannesp`.`moviegenre`
-(`genreId`,
-`movieId`)
-VALUES
+insert into `johannesp`.`moviegenre`
+(`genreid`,
+`movieid`)
+values
 (@crime,
 @lambs);
 
-INSERT INTO `johannesp`.`moviegenre`
-(`genreId`,
-`movieId`)
-VALUES
+insert into `johannesp`.`moviegenre`
+(`genreid`,
+`movieid`)
+values
 (@drama,
 @lambs);
 
-INSERT INTO `johannesp`.`moviegenre`
-(`genreId`,
-`movieId`)
-VALUES
+insert into `johannesp`.`moviegenre`
+(`genreid`,
+`movieid`)
+values
 (@thriller,
 @lambs);
 
 -- film 6
 
-INSERT INTO `johannesp`.`movie`
+insert into `johannesp`.`movie`
 (`title`,
 `description`,
-`realeseYear`,
-`lengthInMinutes`,
-`directorId`)
-VALUES
-('Casablanca',
-'Casablanca är en amerikansk romantisk dramafilm från 1942 i regi av Michael Curtiz, baserad på Murray Burnetts och Joan Alisons opublicerade teaterpjäs Everybody Comes to Rick´s. Huvudrollerna spelas av Humphrey Bogart och Ingrid Bergman. Filmen brukar räknas som en av de största klassikerna inom amerikansk film.',
+`realeseyear`,
+`lengthinminutes`,
+`directorid`)
+values
+('casablanca',
+'casablanca är en amerikansk romantisk dramafilm från 1942 i regi av michael curtiz, baserad på murray burnetts och joan alisons opublicerade teaterpjäs everybody comes to rick´s. huvudrollerna spelas av humphrey bogart och ingrid bergman. filmen brukar räknas som en av de största klassikerna inom amerikansk film.',
 '1942-11-26',
 102,
-@maxSteiner);
+@maxsteiner);
 
-SELECT LAST_INSERT_ID() INTO @casablanca;
+select last_insert_id() into @casablanca;
  
- INSERT INTO `johannesp`.`movieactor`
-(`actorId`,
-`movieId`)
-VALUES
-(@humphreyBogart,
+ insert into `johannesp`.`movieactor`
+(`actorid`,
+`movieid`)
+values
+(@humphreybogart,
 @casablanca);
  
-INSERT INTO `johannesp`.`movieactor`
-(`actorId`,
-`movieId`)
-VALUES
-(@ingridBergman,
+insert into `johannesp`.`movieactor`
+(`actorid`,
+`movieid`)
+values
+(@ingridbergman,
 @casablanca);
 
-INSERT INTO `johannesp`.`moviegenre`
-(`genreId`,
-`movieId`)
-VALUES
+insert into `johannesp`.`moviegenre`
+(`genreid`,
+`movieid`)
+values
 (@drama,
 @casablanca);
 
-INSERT INTO `johannesp`.`moviegenre`
-(`genreId`,
-`movieId`)
-VALUES
+insert into `johannesp`.`moviegenre`
+(`genreid`,
+`movieid`)
+values
 (@romance,
 @casablanca);
 
-INSERT INTO `johannesp`.`moviegenre`
-(`genreId`,
-`movieId`)
-VALUES
+insert into `johannesp`.`moviegenre`
+(`genreid`,
+`movieid`)
+values
 (@war,
 @casablanca);
 
 -- film 7
 
-INSERT INTO `johannesp`.`movie`
+insert into `johannesp`.`movie`
 (`title`,
 `description`,
-`realeseYear`,
-`lengthInMinutes`,
-`directorId`)
-VALUES
-('The Shawshank Redemption',
-'Andy Dufresne (Tim Robbins) är en tystlåten och ambitiös man med en lysande karriär som bankman. Hans förhållande med frun är däremot långt ifrån lyckligt. Hon vill skilja sig och har inlett ett förhållande med en annan. När frun och hennes älskare brutalt skjuts ihjäl åtalas Andy och fälls för morden då han inte kan bevisa sin oskuld. ',
+`realeseyear`,
+`lengthinminutes`,
+`directorid`)
+values
+('the shawshank redemption',
+'andy dufresne (tim robbins) är en tystlåten och ambitiös man med en lysande karriär som bankman. hans förhållande med frun är däremot långt ifrån lyckligt. hon vill skilja sig och har inlett ett förhållande med en annan. när frun och hennes älskare brutalt skjuts ihjäl åtalas andy och fälls för morden då han inte kan bevisa sin oskuld. ',
 '1994-09-23',
 142,
-@frankDarabont);
+@frankdarabont);
 
-SELECT LAST_INSERT_ID() INTO @shawshankRedemption;
+select last_insert_id() into @shawshankredemption;
  
-INSERT INTO `johannesp`.`movieactor`
-(`actorId`,
-`movieId`)
-VALUES
-(@morganFreeman,
-@shawshankRedemption);
+insert into `johannesp`.`movieactor`
+(`actorid`,
+`movieid`)
+values
+(@morganfreeman,
+@shawshankredemption);
 
-INSERT INTO `johannesp`.`movieactor`
-(`actorId`,
-`movieId`)
-VALUES
-(@timRobbins,
-@shawshankRedemption);
+insert into `johannesp`.`movieactor`
+(`actorid`,
+`movieid`)
+values
+(@timrobbins,
+@shawshankredemption);
 
-INSERT INTO `johannesp`.`moviegenre`
-(`genreId`,
-`movieId`)
-VALUES
+insert into `johannesp`.`moviegenre`
+(`genreid`,
+`movieid`)
+values
 (@crime,
-@shawshankRedemption);
+@shawshankredemption);
 
-INSERT INTO `johannesp`.`moviegenre`
-(`genreId`,
-`movieId`)
-VALUES
+insert into `johannesp`.`moviegenre`
+(`genreid`,
+`movieid`)
+values
 (@drama,
-@shawshankRedemption);
+@shawshankredemption);
 
 -- film 8
 
-INSERT INTO `johannesp`.`movie`
+insert into `johannesp`.`movie`
 (`title`,
 `description`,
-`realeseYear`,
-`lengthInMinutes`,
-`directorId`)
-VALUES
-('Dumb & Dumber',
-'Den lokalsinneslöse limousinchauffören Lloyd Christmas (Jim Carrey) och hans bäste vän hundfrisören Harry Dunne (Jeff Daniels) bor i en liten sliten lägenhet i Providence, Rhode Island, USA, i ett hyreshus av lägsta standard. Trots deras minimala budget har de förhoppningar om att kunna spara ihop pengar till en maskaffär, men både Lloyd och Harry får dessvärre sparken samma da',
+`realeseyear`,
+`lengthinminutes`,
+`directorid`)
+values
+('dumb & dumber',
+'den lokalsinneslöse limousinchauffören lloyd christmas (jim carrey) och hans bäste vän hundfrisören harry dunne (jeff daniels) bor i en liten sliten lägenhet i providence, rhode island, usa, i ett hyreshus av lägsta standard. trots deras minimala budget har de förhoppningar om att kunna spara ihop pengar till en maskaffär, men både lloyd och harry får dessvärre sparken samma da',
 '1994-12-16',
 107,
-@peterFarrelley);
+@peterfarrelley);
 
-SELECT LAST_INSERT_ID() INTO @dumbDumber;
+select last_insert_id() into @dumbdumber;
 
-INSERT INTO `johannesp`.`movieactor`
-(`actorId`,
-`movieId`)
-VALUES
-(@jimCarrey,
-@dumbDumber);
+insert into `johannesp`.`movieactor`
+(`actorid`,
+`movieid`)
+values
+(@jimcarrey,
+@dumbdumber);
 
-INSERT INTO `johannesp`.`movieactor`
-(`actorId`,
-`movieId`)
-VALUES
-(@jeffDaniels,
-@dumbDumber);
+insert into `johannesp`.`movieactor`
+(`actorid`,
+`movieid`)
+values
+(@jeffdaniels,
+@dumbdumber);
 
-INSERT INTO `johannesp`.`moviegenre`
-(`genreId`,
-`movieId`)
-VALUES
+insert into `johannesp`.`moviegenre`
+(`genreid`,
+`movieid`)
+values
 (@comedy,
-@dumbDumber);
+@dumbdumber);
 
 -- film 9
 
-INSERT INTO `johannesp`.`movie`
+insert into `johannesp`.`movie`
 (`title`,
 `description`,
-`realeseYear`,
-`lengthInMinutes`,
-`directorId`)
-VALUES
-('Skyline',
-'När solen går upp två timmar för tidigt i form av ett märkligt ljusfenomen på himlen ser en grupp vänner till sin fasa hur människor från hela staden dras ut på gatan och sugs upp mot ett enormt rymdskepp som svävar i luften ovanför L.A. Bland tanks, androider och skrämmande aliens som är omöjliga att undfly står det klart att det bara finns en chans att överleva. Att slå tillbaka!',
+`realeseyear`,
+`lengthinminutes`,
+`directorid`)
+values
+('skyline',
+'när solen går upp två timmar för tidigt i form av ett märkligt ljusfenomen på himlen ser en grupp vänner till sin fasa hur människor från hela staden dras ut på gatan och sugs upp mot ett enormt rymdskepp som svävar i luften ovanför l.a. bland tanks, androider och skrämmande aliens som är omöjliga att undfly står det klart att det bara finns en chans att överleva. att slå tillbaka!',
 '2010-11-11',
 94,
-@gregStrause);
+@gregstrause);
 
-SELECT LAST_INSERT_ID() INTO @skyline;
+select last_insert_id() into @skyline;
  
-INSERT INTO `johannesp`.`movieactor`
-(`actorId`,
-`movieId`)
-VALUES
-(@ericBalfour,
+insert into `johannesp`.`movieactor`
+(`actorid`,
+`movieid`)
+values
+(@ericbalfour,
 @skyline);
 
-INSERT INTO `johannesp`.`movieactor`
-(`actorId`,
-`movieId`)
-VALUES
-(@donaldFaison,
+insert into `johannesp`.`movieactor`
+(`actorid`,
+`movieid`)
+values
+(@donaldfaison,
 @skyline);
 
-INSERT INTO `johannesp`.`moviegenre`
-(`genreId`,
-`movieId`)
-VALUES
+insert into `johannesp`.`moviegenre`
+(`genreid`,
+`movieid`)
+values
 (@actions,
 @skyline);
 
-INSERT INTO `johannesp`.`moviegenre`
-(`genreId`,
-`movieId`)
-VALUES
-(@sciFi,
+insert into `johannesp`.`moviegenre`
+(`genreid`,
+`movieid`)
+values
+(@scifi,
 @skyline);
 
-INSERT INTO `johannesp`.`moviegenre`
-(`genreId`,
-`movieId`)
-VALUES
+insert into `johannesp`.`moviegenre`
+(`genreid`,
+`movieid`)
+values
 (@thriller,
 @skyline);
 
 -- film 10
 
-INSERT INTO `johannesp`.`movie`
+insert into `johannesp`.`movie`
 (`title`,
 `description`,
-`realeseYear`,
-`lengthInMinutes`,
-`directorId`)
-VALUES
-('Bio-Dome',
-'Bud och Doyle är två oduglingar som inte gör något vettigt med sina liv. Deras flickvänner är aktiva i miljörörelsen, men Bud och Doyle är ointresserade av att försöka rädda världen. Av misstag blir de involverade i ett forskningsprojekt - de skall leva ett år i en "Bio-Dome", utan kontakt med omvärlden.',
+`realeseyear`,
+`lengthinminutes`,
+`directorid`)
+values
+('bio-dome',
+'bud och doyle är två oduglingar som inte gör något vettigt med sina liv. deras flickvänner är aktiva i miljörörelsen, men bud och doyle är ointresserade av att försöka rädda världen. av misstag blir de involverade i ett forskningsprojekt - de skall leva ett år i en "bio-dome", utan kontakt med omvärlden.',
 '1996-01-12',
 145,
-@jasonBloom);
+@jasonbloom);
 
-SELECT LAST_INSERT_ID() INTO @bioDome;
+select last_insert_id() into @biodome;
  
-INSERT INTO `johannesp`.`movieactor`
-(`actorId`,
-`movieId`)
-VALUES
-(@pauleyShore,
-@bioDome);
+insert into `johannesp`.`movieactor`
+(`actorid`,
+`movieid`)
+values
+(@pauleyshore,
+@biodome);
 
-INSERT INTO `johannesp`.`movieactor`
-(`actorId`,
-`movieId`)
-VALUES
-(@stephenBaldwin,
-@bioDome);
+insert into `johannesp`.`movieactor`
+(`actorid`,
+`movieid`)
+values
+(@stephenbaldwin,
+@biodome);
 
-INSERT INTO `johannesp`.`moviegenre`
-(`genreId`,
-`movieId`)
-VALUES
+insert into `johannesp`.`moviegenre`
+(`genreid`,
+`movieid`)
+values
 (@comedy,
-@bioDome);
+@biodome);
 
--- movieCopies
+-- moviecopies
 
-INSERT INTO `johannesp`.`moviecopy`
-(`movieId`)
-VALUES
-(@independeceDay);
+insert into `johannesp`.`moviecopy`
+(`movieid`)
+values
+(@independeceday);
 
-SELECT LAST_INSERT_ID() INTO @independenceDayCopy1;
+select last_insert_id() into @independencedaycopy1;
 
-INSERT INTO `johannesp`.`moviecopy`
-(`movieId`)
-VALUES
-(@independeceDay);
+insert into `johannesp`.`moviecopy`
+(`movieid`)
+values
+(@independeceday);
 
-SELECT LAST_INSERT_ID() INTO @independenceDayCopy2;
+select last_insert_id() into @independencedaycopy2;
 
-INSERT INTO `johannesp`.`moviecopy`
-(`movieId`)
-VALUES
+insert into `johannesp`.`moviecopy`
+(`movieid`)
+values
 (@interstellar);
 
-SELECT LAST_INSERT_ID() INTO @interstellarCopy1;
+select last_insert_id() into @interstellarcopy1;
 
-INSERT INTO `johannesp`.`moviecopy`
-(`movieId`)
-VALUES
+insert into `johannesp`.`moviecopy`
+(`movieid`)
+values
 (@interstellar);
 
-SELECT LAST_INSERT_ID() INTO @interstellarCopy2;
+select last_insert_id() into @interstellarcopy2;
 
-INSERT INTO `johannesp`.`moviecopy`
-(`movieId`)
-VALUES
-(@fightClub);
+insert into `johannesp`.`moviecopy`
+(`movieid`)
+values
+(@fightclub);
 
-SELECT LAST_INSERT_ID() INTO @fightClubCopy1;
+select last_insert_id() into @fightclubcopy1;
 
-INSERT INTO `johannesp`.`moviecopy`
-(`movieId`)
-VALUES
-(@fightClub);
+insert into `johannesp`.`moviecopy`
+(`movieid`)
+values
+(@fightclub);
 
-SELECT LAST_INSERT_ID() INTO @fightClubCopy2;
+select last_insert_id() into @fightclubcopy2;
 
-INSERT INTO `johannesp`.`moviecopy`
-(`movieId`)
-VALUES
-(@almostFamous);
+insert into `johannesp`.`moviecopy`
+(`movieid`)
+values
+(@almostfamous);
 
-SELECT LAST_INSERT_ID() INTO @almostFamousCopy1;
+select last_insert_id() into @almostfamouscopy1;
 
-INSERT INTO `johannesp`.`moviecopy`
-(`movieId`)
-VALUES
-(@almostFamous);
+insert into `johannesp`.`moviecopy`
+(`movieid`)
+values
+(@almostfamous);
 
-SELECT LAST_INSERT_ID() INTO @almostFamousCopy2;
+select last_insert_id() into @almostfamouscopy2;
 
-INSERT INTO `johannesp`.`moviecopy`
-(`movieId`)
-VALUES
+insert into `johannesp`.`moviecopy`
+(`movieid`)
+values
 (@lambs);
 
-SELECT LAST_INSERT_ID() INTO @lambsCopy1;
+select last_insert_id() into @lambscopy1;
 
-INSERT INTO `johannesp`.`moviecopy`
-(`movieId`)
-VALUES
+insert into `johannesp`.`moviecopy`
+(`movieid`)
+values
 (@lambs);
 
-SELECT LAST_INSERT_ID() INTO @lambsCopy2;
+select last_insert_id() into @lambscopy2;
 
 
-INSERT INTO `johannesp`.`moviecopy`
-(`movieId`)
-VALUES
+insert into `johannesp`.`moviecopy`
+(`movieid`)
+values
 (@casablanca);
 
-SELECT LAST_INSERT_ID() INTO @casablancaCopy1;
+select last_insert_id() into @casablancacopy1;
 
-INSERT INTO `johannesp`.`moviecopy`
-(`movieId`)
-VALUES
+insert into `johannesp`.`moviecopy`
+(`movieid`)
+values
 (@casablanca);
 
-SELECT LAST_INSERT_ID() INTO @casablancaCopy2;
+select last_insert_id() into @casablancacopy2;
 
-INSERT INTO `johannesp`.`moviecopy`
-(`movieId`)
-VALUES
-(@shawshankRedemption);
+insert into `johannesp`.`moviecopy`
+(`movieid`)
+values
+(@shawshankredemption);
 
-SELECT LAST_INSERT_ID() INTO @shawshankRedemptionCopy1;
+select last_insert_id() into @shawshankredemptioncopy1;
 
-INSERT INTO `johannesp`.`moviecopy`
-(`movieId`)
-VALUES
-(@shawshankRedemption);
+insert into `johannesp`.`moviecopy`
+(`movieid`)
+values
+(@shawshankredemption);
 
-SELECT LAST_INSERT_ID() INTO @shawshankRedemptionCopy2;
+select last_insert_id() into @shawshankredemptioncopy2;
 
-INSERT INTO `johannesp`.`moviecopy`
-(`movieId`)
-VALUES
-(@dumbDumber);
+insert into `johannesp`.`moviecopy`
+(`movieid`)
+values
+(@dumbdumber);
 
-SELECT LAST_INSERT_ID() INTO @dumbDumberCopy1;
+select last_insert_id() into @dumbdumbercopy1;
 
-INSERT INTO `johannesp`.`moviecopy`
-(`movieId`)
-VALUES
-(@dumbDumber);
+insert into `johannesp`.`moviecopy`
+(`movieid`)
+values
+(@dumbdumber);
 
-SELECT LAST_INSERT_ID() INTO @dumbDumberCopy2;
+select last_insert_id() into @dumbdumbercopy2;
 
-INSERT INTO `johannesp`.`moviecopy`
-(`movieId`)
-VALUES
+insert into `johannesp`.`moviecopy`
+(`movieid`)
+values
 (@skyline);
 
-SELECT LAST_INSERT_ID() INTO @skylineCopy1;
+select last_insert_id() into @skylinecopy1;
 
-INSERT INTO `johannesp`.`moviecopy`
-(`movieId`)
-VALUES
+insert into `johannesp`.`moviecopy`
+(`movieid`)
+values
 (@skyline);
 
-SELECT LAST_INSERT_ID() INTO @skylineCopy2;
+select last_insert_id() into @skylinecopy2;
 
-INSERT INTO `johannesp`.`moviecopy`
-(`movieId`)
-VALUES
-(@bioDome);
+insert into `johannesp`.`moviecopy`
+(`movieid`)
+values
+(@biodome);
 
-SELECT LAST_INSERT_ID() INTO @bioDomeCopy1;
+select last_insert_id() into @biodomecopy1;
 
-INSERT INTO `johannesp`.`moviecopy`
-(`movieId`)
-VALUES
-(@bioDome);
+insert into `johannesp`.`moviecopy`
+(`movieid`)
+values
+(@biodome);
 
-SELECT LAST_INSERT_ID() INTO @bioDomeCopy2;
+select last_insert_id() into @biodomecopy2;
 
 -- address 1
 
-INSERT INTO `johannesp`.`address`
-(`addressLine1`,
-`addressLine2`,
-`zipCode`,
+insert into `johannesp`.`address`
+(`addressline1`,
+`addressline2`,
+`zipcode`,
 `city`)
-VALUES
-('Storgatan 4c',
-NULL,
+values
+('storgatan 4c',
+null,
 '57332',
-'Tranås');
+'tranås');
 
 -- kund 1
 
-SELECT LAST_INSERT_ID() INTO @customerAdressId1;
-INSERT INTO `johannesp`.`customer`
-(`firstName`,
-`lastName`,
+select last_insert_id() into @customeradressid1;
+insert into `johannesp`.`customer`
+(`firstname`,
+`lastname`,
 `email`,
-`phoneNumber`,
-`addressId`)
-VALUES
-('Johannes',
-'Palm',
-'Johannes@itpalm.se',
+`phonenumber`,
+`addressid`)
+values
+('johannes',
+'palm',
+'johannes@itpalm.se',
 '070-6957568',
-@customerAdressId1);
+@customeradressid1);
 
 -- kund2
 
-INSERT INTO `johannesp`.`customer`
-(`firstName`,
-`lastName`,
+insert into `johannesp`.`customer`
+(`firstname`,
+`lastname`,
 `email`,
-`phoneNumber`,
-`addressId`)
-VALUES
-('Angelica',
-'Lindh',
-'Angelica@itpalm.se',
+`phonenumber`,
+`addressid`)
+values
+('angelica',
+'lindh',
+'angelica@itpalm.se',
 '070-3378744',
-@customerAdressId1);
+@customeradressid1);
 
 -- address 2
 
-INSERT INTO `johannesp`.`address`
-(`addressLine1`,
-`addressLine2`,
-`zipCode`,
+insert into `johannesp`.`address`
+(`addressline1`,
+`addressline2`,
+`zipcode`,
 `city`)
-VALUES
-('Framnäsgatan 20',
-NULL,
+values
+('framnäsgatan 20',
+null,
 '57339',
-'Tranås');
+'tranås');
 
 -- kund 3
 
-SELECT LAST_INSERT_ID() INTO @customerAdressId2;
-INSERT INTO `johannesp`.`customer`
-(`firstName`,
-`lastName`,
+select last_insert_id() into @customeradressid2;
+insert into `johannesp`.`customer`
+(`firstname`,
+`lastname`,
 `email`,
-`phoneNumber`,
-`addressId`)
-VALUES
-('Håkan',
-'Palm',
-'Palm@tranastaxi.se',
+`phonenumber`,
+`addressid`)
+values
+('håkan',
+'palm',
+'palm@tranastaxi.se',
 '070-3488833',
-@customerAdressId2);
+@customeradressid2);
 
 -- kund 4
 
-INSERT INTO `johannesp`.`customer`
-(`firstName`,
-`lastName`,
+insert into `johannesp`.`customer`
+(`firstname`,
+`lastname`,
 `email`,
-`phoneNumber`,
-`addressId`)
-VALUES
-('Rosita',
-'Palm',
+`phonenumber`,
+`addressid`)
+values
+('rosita',
+'palm',
 'rosita@alpa.se',
 '070-5433884',
-@customerAdressId2);
+@customeradressid2);
 
 -- address 3
 
-INSERT INTO `johannesp`.`address`
-(`addressLine1`,
-`addressLine2`,
-`zipCode`,
+insert into `johannesp`.`address`
+(`addressline1`,
+`addressline2`,
+`zipcode`,
 `city`)
-VALUES
-('Datalinjen 1',
-NULL,
+values
+('datalinjen 1',
+null,
 '58330',
-'Linköping');
+'linköping');
 
 -- kund 5
 
-SELECT LAST_INSERT_ID() INTO @customerAdressId3;
-INSERT INTO `johannesp`.`customer`
-(`firstName`,
-`lastName`,
+select last_insert_id() into @customeradressid3;
+insert into `johannesp`.`customer`
+(`firstname`,
+`lastname`,
 `email`,
-`phoneNumber`,
-`addressId`)
-VALUES
-('Mark',
-'Zuckerberg',
-'Mark@facebook.com',
+`phonenumber`,
+`addressid`)
+values
+('mark',
+'zuckerberg',
+'mark@facebook.com',
 '073-5574788',
-@customerAdressId3);
+@customeradressid3);
 
 -- address 4
 
-INSERT INTO `johannesp`.`address`
-(`addressLine1`,
-`addressLine2`,
-`zipCode`,
+insert into `johannesp`.`address`
+(`addressline1`,
+`addressline2`,
+`zipcode`,
 `city`)
-VALUES
-('Vävar Johans gata 8',
-NULL,
+values
+('vävar johans gata 8',
+null,
 '120 69',
-'Stockholm');
+'stockholm');
 
 -- kund 6
 
-SELECT LAST_INSERT_ID() INTO @customerAdressId4;
-INSERT INTO `johannesp`.`customer`
-(`firstName`,
-`lastName`,
+select last_insert_id() into @customeradressid4;
+insert into `johannesp`.`customer`
+(`firstname`,
+`lastname`,
 `email`,
-`phoneNumber`,
-`addressId`)
-VALUES
-('Alexander',
-'Palm',
+`phonenumber`,
+`addressid`)
+values
+('alexander',
+'palm',
 'alexander@alpa.se',
 '070-3333999',
-@customerAdressId4);
+@customeradressid4);
 
 -- kund 7
 
-INSERT INTO `johannesp`.`customer`
-(`firstName`,
-`lastName`,
+insert into `johannesp`.`customer`
+(`firstname`,
+`lastname`,
 `email`,
-`phoneNumber`,
-`addressId`)
-VALUES
-('Emma',
-'Gustavsson',
+`phonenumber`,
+`addressid`)
+values
+('emma',
+'gustavsson',
 'emma@alpa.se',
 '072-3948457',
-@customerAdressId4);
+@customeradressid4);
 
 -- address 5
 
-INSERT INTO `johannesp`.`address`
-(`addressLine1`,
-`addressLine2`,
-`zipCode`,
+insert into `johannesp`.`address`
+(`addressline1`,
+`addressline2`,
+`zipcode`,
 `city`)
-VALUES
-('Midsommarvägen 17',
-NULL,
+values
+('midsommarvägen 17',
+null,
 '126 35',
-'Hägersten');
+'hägersten');
 
 -- kund 8
 
-SELECT LAST_INSERT_ID() INTO @customerAdressId5;
-INSERT INTO `johannesp`.`customer`
-(`firstName`,
-`lastName`,
+select last_insert_id() into @customeradressid5;
+insert into `johannesp`.`customer`
+(`firstname`,
+`lastname`,
 `email`,
-`phoneNumber`,
-`addressId`)
-VALUES
-('Kristoffer',
-'Palm',
+`phonenumber`,
+`addressid`)
+values
+('kristoffer',
+'palm',
 'kristoffer@iveo.se',
 '070-3037388',
-@customerAdressId5);
+@customeradressid5);
 
 -- kund 9
 
-INSERT INTO `johannesp`.`customer`
-(`firstName`,
-`lastName`,
+insert into `johannesp`.`customer`
+(`firstname`,
+`lastname`,
 `email`,
-`phoneNumber`,
-`addressId`)
-VALUES
-('Bea',
-'Hult',
-'Bea@beastickar.se',
+`phonenumber`,
+`addressid`)
+values
+('bea',
+'hult',
+'bea@beastickar.se',
 '070-8844499',
-@customerAdressId5);
+@customeradressid5);
 
 -- address 6
 
-INSERT INTO `johannesp`.`address`
-(`addressLine1`,
-`addressLine2`,
-`zipCode`,
+insert into `johannesp`.`address`
+(`addressline1`,
+`addressline2`,
+`zipcode`,
 `city`)
-VALUES
-('Trumpetaregatan 3U1',
-NULL,
+values
+('trumpetaregatan 3u1',
+null,
 '603 67',
-'Norrköping');
+'norrköping');
 
 -- kund 10
 
-SELECT LAST_INSERT_ID() INTO @customerAdressId6;
-INSERT INTO `johannesp`.`customer`
-(`firstName`,
-`lastName`,
+select last_insert_id() into @customeradressid6;
+insert into `johannesp`.`customer`
+(`firstname`,
+`lastname`,
 `email`,
-`phoneNumber`,
-`addressId`)
-VALUES
-('Gustav',
-'Wahlström',
+`phonenumber`,
+`addressid`)
+values
+('gustav',
+'wahlström',
 'gustav@wasst.se',
 '070-4947488',
-@customerAdressId6);
+@customeradressid6);
 
 -- address 7
 
-INSERT INTO `johannesp`.`address`
-(`addressLine1`,
-`addressLine2`,
-`zipCode`,
+insert into `johannesp`.`address`
+(`addressline1`,
+`addressline2`,
+`zipcode`,
 `city`)
-VALUES
-('Torpgatan 30',
-NULL,
+values
+('torpgatan 30',
+null,
 '57340',
-'Tranås');
+'tranås');
 
 -- employee 1
 
-SELECT LAST_INSERT_ID() INTO @employeeAdressId7;
-INSERT INTO `johannesp`.`employee`
-(`firstName`,
-`lastName`,
+select last_insert_id() into @employeeadressid7;
+insert into `johannesp`.`employee`
+(`firstname`,
+`lastname`,
 `email`,
-`phoneNumber`,
-`addressId`)
-VALUES
-('Alexander',
-'Borg',
+`phonenumber`,
+`addressid`)
+values
+('alexander',
+'borg',
 'borg@hotmail.com',
 '070-4845559',
-@employeeAdressId7
+@employeeadressid7
 );
 
 -- address 8
 
-INSERT INTO `johannesp`.`address`
-(`addressLine1`,
-`addressLine2`,
-`zipCode`,
+insert into `johannesp`.`address`
+(`addressline1`,
+`addressline2`,
+`zipcode`,
 `city`)
-VALUES
-('Nygatan 6',
-NULL,
+values
+('nygatan 6',
+null,
 '57333',
-'Tranås');
+'tranås');
 
 -- employee 2
 
-SELECT LAST_INSERT_ID() INTO @employeeAdressId8;
-INSERT INTO `johannesp`.`employee`
-(`firstName`,
-`lastName`,
+select last_insert_id() into @employeeadressid8;
+insert into `johannesp`.`employee`
+(`firstname`,
+`lastname`,
 `email`,
-`phoneNumber`,
-`addressId`)
-VALUES
-('Johan',
-'Blomqvist',
+`phonenumber`,
+`addressid`)
+values
+('johan',
+'blomqvist',
 'blomqvist@hotmail.com',
 '076-8555995',
-@employeeAdressId8
+@employeeadressid8
 );
 
 
--- Trigger rental-history
+-- trigger rental-history
 
-USE `johannesp`;
+use `johannesp`;
 
-DELIMITER $$
-CREATE TRIGGER `rentalHistory`
-AFTER INSERT
-ON rentalItem
-FOR EACH ROW
-BEGIN
-INSERT INTO rentalLog (movieCopyId, rentalDate) VALUES (new.movieCopyId, new.rentalDate);
+delimiter $$
+create trigger `rentalhistory`
+after insert
+on rentalitem
+for each row
+begin
+insert into rentallog (moviecopyid, rentaldate) values (new.moviecopyid, new.rentaldate);
 
-END$$
+end$$
 
-DELIMITER ;
+delimiter ;
 
--- Old rentals
+-- old rentals
 
 -- rental 1
 
-INSERT INTO `johannesp`.`rental`
-(`customerId`,
-`employeeId`)
-VALUES
+insert into `johannesp`.`rental`
+(`customerid`,
+`employeeid`)
+values
 (1,
 1);
 
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`,
-`rentalDate`,
-`returnDate`)
-VALUES
+insert into `johannesp`.`rentalitem`
+(`rentalid`,
+`moviecopyid`,
+`rentaldate`,
+`returndate`)
+values
 (1,
-@independenceDayCopy1,
+@independencedaycopy1,
 "2018-03-01",
 "2018-03-10");
 
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`,
-`rentalDate`,
-`returnDate`)
-VALUES
+insert into `johannesp`.`rentalitem`
+(`rentalid`,
+`moviecopyid`,
+`rentaldate`,
+`returndate`)
+values
 (1,
-@interstellarCopy1,
+@interstellarcopy1,
 "2018-03-01",
 "2018-03-10");
 
 -- rental 2
 
-INSERT INTO `johannesp`.`rental`
-(`customerId`,
-`employeeId`)
-VALUES
+insert into `johannesp`.`rental`
+(`customerid`,
+`employeeid`)
+values
 (2,
 2);
 
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`,
-`rentalDate`,
-`returnDate`)
-VALUES
+insert into `johannesp`.`rentalitem`
+(`rentalid`,
+`moviecopyid`,
+`rentaldate`,
+`returndate`)
+values
 (2,
-@dumbDumberCopy1,
+@dumbdumbercopy1,
 "2018-03-05",
 "2018-03-11");
 
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`,
-`rentalDate`,
-`returnDate`)
-VALUES
+insert into `johannesp`.`rentalitem`
+(`rentalid`,
+`moviecopyid`,
+`rentaldate`,
+`returndate`)
+values
 (2,
-@interstellarCopy2,
+@interstellarcopy2,
 "2018-03-05",
 "2018-03-11");
 
 -- rental 3
 
-INSERT INTO `johannesp`.`rental`
-(`customerId`,
-`employeeId`)
-VALUES
+insert into `johannesp`.`rental`
+(`customerid`,
+`employeeid`)
+values
 (3,
 1);
 
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`,
-`rentalDate`,
-`returnDate`)
-VALUES
+insert into `johannesp`.`rentalitem`
+(`rentalid`,
+`moviecopyid`,
+`rentaldate`,
+`returndate`)
+values
 (3,
-@shawshankRedemptionCopy1,
+@shawshankredemptioncopy1,
 "2018-03-10",
 "2018-03-14");
 
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`,
-`rentalDate`,
-`returnDate`)
-VALUES
+insert into `johannesp`.`rentalitem`
+(`rentalid`,
+`moviecopyid`,
+`rentaldate`,
+`returndate`)
+values
 (3,
-@skylineCopy1,
+@skylinecopy1,
 "2018-03-11",
 "2018-03-17");
 
 -- rental 4
 
-INSERT INTO `johannesp`.`rental`
-(`customerId`,
-`employeeId`)
-VALUES
+insert into `johannesp`.`rental`
+(`customerid`,
+`employeeid`)
+values
 (1,
 1);
 
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`,
-`rentalDate`,
-`returnDate`)
-VALUES
+insert into `johannesp`.`rentalitem`
+(`rentalid`,
+`moviecopyid`,
+`rentaldate`,
+`returndate`)
+values
 (4,
-@fightClubCopy1,
+@fightclubcopy1,
 "2018-03-20",
 "2018-03-25");
 
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`,
-`rentalDate`,
-`returnDate`)
-VALUES
+insert into `johannesp`.`rentalitem`
+(`rentalid`,
+`moviecopyid`,
+`rentaldate`,
+`returndate`)
+values
 (4,
-@lambsCopy1,
+@lambscopy1,
 "2018-03-20",
 "2018-03-25");
 
 -- rental 5, rented at the moment, late and not returned.
 
-INSERT INTO `johannesp`.`rental`
-(`customerId`,
-`employeeId`)
-VALUES
+insert into `johannesp`.`rental`
+(`customerid`,
+`employeeid`)
+values
 (5,
 2);
 
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`,
-`rentalDate`,
-`returnDate`)
-VALUES
+insert into `johannesp`.`rentalitem`
+(`rentalid`,
+`moviecopyid`,
+`rentaldate`,
+`returndate`)
+values
 (5,
-@interstellarCopy1,
+@interstellarcopy1,
 "2018-04-02",
-NULL);
+null);
 
 -- rental 6 rented at the moment, late and not returned.
 
-INSERT INTO `johannesp`.`rental`
-(`customerId`,
-`employeeId`)
-VALUES
+insert into `johannesp`.`rental`
+(`customerid`,
+`employeeid`)
+values
 (10,
 1);
 
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`,
-`rentalDate`,
-`returnDate`)
-VALUES
+insert into `johannesp`.`rentalitem`
+(`rentalid`,
+`moviecopyid`,
+`rentaldate`,
+`returndate`)
+values
 (6,
-@shawshankRedemptionCopy2,
+@shawshankredemptioncopy2,
 "2018-04-01",
-NULL);
+null);
 
 -- rental 7 rented at the moment, late and not returned.
 
-INSERT INTO `johannesp`.`rental`
-(`customerId`,
-`employeeId`)
-VALUES
+insert into `johannesp`.`rental`
+(`customerid`,
+`employeeid`)
+values
 (9,
 2);
 
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`,
-`rentalDate`,
-`returnDate`)
-VALUES
+insert into `johannesp`.`rentalitem`
+(`rentalid`,
+`moviecopyid`,
+`rentaldate`,
+`returndate`)
+values
 (7,
-@fightClubCopy2,
+@fightclubcopy2,
 "2018-03-30",
-NULL);
+null);
 
-INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`,
-`rentalDate`,
-`returnDate`)
-VALUES
+insert into `johannesp`.`rentalitem`
+(`rentalid`,
+`moviecopyid`,
+`rentaldate`,
+`returndate`)
+values
 (7,
-@lambsCopy2,
+@lambscopy2,
 "2018-03-30",
-NULL);
+null);
 
 -- views
 
-CREATE VIEW view_moviesInStore AS
+create view view_moviesinstore as
 
-SELECT m.title Title, m.description Description, m.realeseYear Releaseyear, GROUP_CONCAT(DISTINCT ' ', g.genre) Genres, m.lengthInMinutes Length, CONCAT(d.firstName,' ', d.lastName) as Director,
-GROUP_CONCAT(DISTINCT' ',a.firstName,' ', a.lastName) Actors
+select m.title title, m.description description, m.realeseyear releaseyear, group_concat(distinct ' ', g.genre) genres, m.lengthinminutes length, concat(d.firstname,' ', d.lastname) as director,
+group_concat(distinct' ',a.firstname,' ', a.lastname) actors
 from movie m
-INNER JOIN director d ON d.directorId = m.directorId
-INNER JOIN movieActor mA ON mA.movieId = m.movieid
-INNER JOIN actor a ON a.actorId = mA.actorId
-INNER JOIN moviegenre mG ON mG.movieId = m.movieId
-INNER JOIN genre g ON g.genreId = mG.genreId
-GROUP BY m.movieId
-ORDER BY m.title;
+inner join director d on d.directorid = m.directorid
+inner join movieactor ma on ma.movieid = m.movieid
+inner join actor a on a.actorid = ma.actorid
+inner join moviegenre mg on mg.movieid = m.movieid
+inner join genre g on g.genreid = mg.genreid
+group by m.movieid
+order by m.title;
 
-CREATE VIEW view_moviesInDrama AS
+create view view_moviesindrama as
 
-SELECT m.title Title, m.description Description, m.realeseYear Releaseyear, GROUP_CONCAT(DISTINCT ' ', g.genre) Genres, m.lengthInMinutes Length, CONCAT(d.firstName,' ', d.lastName) as Director,
-GROUP_CONCAT(DISTINCT' ',a.firstName,' ', a.lastName) Actors
+select m.title title, m.description description, m.realeseyear releaseyear, group_concat(distinct ' ', g.genre) genres, m.lengthinminutes length, concat(d.firstname,' ', d.lastname) as director,
+group_concat(distinct' ',a.firstname,' ', a.lastname) actors
 from movie m
-INNER JOIN director d ON d.directorId = m.directorId
-INNER JOIN movieActor mA ON mA.movieId = m.movieid
-INNER JOIN actor a ON a.actorId = mA.actorId
-INNER JOIN moviegenre mG ON mG.movieId = m.movieId
-INNER JOIN genre g ON g.genreId = mG.genreId
-GROUP BY m.movieId
-HAVING Genres LIKE '%Drama%'
-ORDER BY m.title;
+inner join director d on d.directorid = m.directorid
+inner join movieactor ma on ma.movieid = m.movieid
+inner join actor a on a.actorid = ma.actorid
+inner join moviegenre mg on mg.movieid = m.movieid
+inner join genre g on g.genreid = mg.genreid
+group by m.movieid
+having genres like '%drama%'
+order by m.title;
 
-CREATE VIEW view_rentalInfo AS
+create view view_rentalinfo as
 
-SELECT GROUP_CONCAT(' ', m.title) 'Rented movies', 
-CONCAT(c.firstName, ' ', c.lastName) Customer, c.phoneNumber 'Customer phone', 
-CONCAT(e.firstName, ' ',e.lastName) Employee FROM rental r
-INNER JOIN rentalItem rI ON rI.rentalId = r.rentalId
-INNER JOIN movieCopy mC ON mC.movieCopyId = rI.movieCopyId
-INNER JOIN movie m ON m.movieId = mC.movieId
-INNER JOIN employee e on e.employeeId = r.employeeId
-INNER JOIN customer c ON c.customerId = r.customerId
-WHERE rI.returnDate IS NULL
-GROUP BY r.rentalId 
-ORDER BY m.title;
+select group_concat(' ', m.title) 'rented movies', 
+concat(c.firstname, ' ', c.lastname) customer, c.phonenumber 'customer phone', 
+concat(e.firstname, ' ',e.lastname) employee from rental r
+inner join rentalitem ri on ri.rentalid = r.rentalid
+inner join moviecopy mc on mc.moviecopyid = ri.moviecopyid
+inner join movie m on m.movieid = mc.movieid
+inner join employee e on e.employeeid = r.employeeid
+inner join customer c on c.customerid = r.customerid
+where ri.returndate is null
+group by r.rentalid 
+order by m.title;
 
-CREATE VIEW view_overdueMovies AS
+create view view_overduemovies as
 
-SELECT GROUP_CONCAT(' ', m.title) 'Rented movies', rI.rentalDate 'Rented on',
-rI.returnDate 'Returned on',
-CONCAT(c.firstName, ' ', c.lastName) Customer, c.phoneNumber 'Customer phone'
-FROM rental r
-INNER JOIN rentalItem rI ON rI.rentalId = r.rentalId
-INNER JOIN movieCopy mC ON mC.movieCopyId = rI.movieCopyId
-INNER JOIN movie m ON m.movieId = mC.movieId
-INNER JOIN employee e on e.employeeId = r.employeeId
-INNER JOIN customer c ON c.customerId = r.customerId
-WHERE DATEDIFF(rI.returnDate, rI.rentalDate) > 4 OR 
-(rI.returnDate IS NULL AND DATEDIFF(CURRENT_DATE(), rI.rentalDate) > 4)
-GROUP BY r.rentalId 
-ORDER BY m.title;
+select group_concat(' ', m.title) 'rented movies', ri.rentaldate 'rented on',
+ri.returndate 'returned on',
+concat(c.firstname, ' ', c.lastname) customer, c.phonenumber 'customer phone'
+from rental r
+inner join rentalitem ri on ri.rentalid = r.rentalid
+inner join moviecopy mc on mc.moviecopyid = ri.moviecopyid
+inner join movie m on m.movieid = mc.movieid
+inner join employee e on e.employeeid = r.employeeid
+inner join customer c on c.customerid = r.customerid
+where datediff(ri.returndate, ri.rentaldate) > 4 or 
+(ri.returndate is null and datediff(current_date(), ri.rentaldate) > 4)
+group by r.rentalid 
+order by m.title;
 
-CREATE VIEW view_employeeRentalInfo AS
+create view view_employeerentalinfo as
 
-SELECT CONCAT(e.firstName, ' ',e.lastName) Employees,
-COUNT(rI.movieCopyId) 'Number of movies rented out'
-FROM employee e
-INNER JOIN rental r ON r.employeeId = e.employeeId
-INNER JOIN rentalItem rI ON rI.rentalId = r.rentalId
-WHERE rI.rentalDate IS NOT NULL
-GROUP BY e.employeeId
-ORDER BY COUNT(rI.movieCopyId) DESC;
+select concat(e.firstname, ' ',e.lastname) employees,
+count(ri.moviecopyid) 'number of movies rented out'
+from employee e
+inner join rental r on r.employeeid = e.employeeid
+inner join rentalitem ri on ri.rentalid = r.rentalid
+where ri.rentaldate is not null
+group by e.employeeid
+order by count(ri.moviecopyid) desc;
 
-CREATE VIEW view_movieRentalsLastMonth AS
+create view view_movierentalslastmonth as
 
-SELECT m.title 'Title',
-COUNT(r.movieCopyId) 'Times rented'
-FROM rentalLog r
-INNER JOIN movieCopy mc on mc.movieCopyId = r.movieCopyId
-INNER JOIN movie m on m.movieId = mc.movieId
-WHERE MONTH(r.rentalDate) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)
-GROUP BY m.title
-ORDER BY COUNT(r.movieCopyId) DESC;
+select m.title 'title',
+count(r.moviecopyid) 'times rented'
+from rentallog r
+inner join moviecopy mc on mc.moviecopyid = r.moviecopyid
+inner join movie m on m.movieid = mc.movieid
+where month(r.rentaldate) = month(current_date - interval 1 month)
+group by m.title
+order by count(r.moviecopyid) desc;
 
-USE `johannesp`;
-DROP procedure IF EXISTS `sp_onRental`;
+use `johannesp`;
+drop procedure if exists `sp_onrental`;
 
-DELIMITER $$
-USE `johannesp`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_onRental`(
-	IN custId INT,
-    IN empId INT,
-    IN movcopyId INT)
-BEGIN
+delimiter $$
+use `johannesp`$$
+create definer=`root`@`localhost` procedure `sp_onrental`(
+	in custid int,
+    in empid int,
+    in movcopyid int)
+begin
 
-IF((SELECT COUNT(*) FROM rentalItem WHERE movieCopyId = movcopyId AND returnDate IS NULL) = 0)
-THEN
-INSERT INTO `johannesp`.`rental`
-(`customerId`,
-`employeeId`)
-VALUES
-(empId,
-custId);
+if((select count(*) from rentalitem where moviecopyid = movcopyid and returndate is null) = 0)
+then
+insert into `johannesp`.`rental`
+(`customerid`,
+`employeeid`)
+values
+(empid,
+custid);
  
- INSERT INTO `johannesp`.`rentalitem`
-(`rentalId`,
-`movieCopyId`,
-`rentalDate`,
-`returnDate`)
-VALUES
+ insert into `johannesp`.`rentalitem`
+(`rentalid`,
+`moviecopyid`,
+`rentaldate`,
+`returndate`)
+values
 (last_insert_id(),
-movcopyId,
-CURRENT_DATE(),
-NULL);
+movcopyid,
+current_date(),
+null);
 
-END IF;
+end if;
 
-END$$
+end$$
 
-DELIMITER ;
+delimiter ;
 
-USE `johannesp`;
-DROP function IF EXISTS `isItLate`;
+use `johannesp`;
+drop function if exists `isitlate`;
 
-DELIMITER $$
-USE `johannesp`$$
-CREATE DEFINER=`root`@`localhost` FUNCTION `isItLate`(movcopyId VARCHAR(20)) RETURNS varchar(20) CHARSET utf8
-BEGIN
+delimiter $$
+use `johannesp`$$
+create definer=`root`@`localhost` function `isitlate`(movcopyid varchar(20)) returns varchar(20) charset utf8
+begin
 
-IF((SELECT rI.rentalDate FROM rentalItem rI
-WHERE (rI.movieCopyId = movcopyId AND rI.returnDate IS NULL) AND DATEDIFF(CURRENT_DATE, rI.rentalDate) > 4))
-THEN
-RETURN 'True';
-ELSE
-RETURN 'False';
-END IF;
-END$$
+if((select ri.rentaldate from rentalitem ri
+where (ri.moviecopyid = movcopyid and ri.returndate is null) and datediff(current_date, ri.rentaldate) > 4))
+then
+return 'true';
+else
+return 'false';
+end if;
+end$$
 
-DELIMITER ;
+delimiter ;
 
-USE `johannesp`;
-DROP procedure IF EXISTS `sp_onReturn`;
+use `johannesp`;
+drop procedure if exists `sp_onreturn`;
 
-DELIMITER $$
-USE `johannesp`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_onReturn`(IN movcopyId VARCHAR(20))
-BEGIN
+delimiter $$
+use `johannesp`$$
+create definer=`root`@`localhost` procedure `sp_onreturn`(in movcopyid varchar(20))
+begin
 
-IF ((SELECT COUNT(*) FROM rentalItem WHERE movcopyId = movieCopyId AND returnDate IS NULL) = 1)
-THEN
-SELECT isItLate(movcopyId);
-UPDATE `johannesp`.`rentalitem`
-SET
-`returnDate` = CURRENT_DATE
-WHERE movieCopyId = movcopyId;
+if ((select count(*) from rentalitem where movcopyid = moviecopyid and returndate is null) = 1)
+then
+select isitlate(movcopyid);
+update `johannesp`.`rentalitem`
+set
+`returndate` = current_date
+where moviecopyid = movcopyid;
 
 
-END IF;
+end if;
 
-END$$
-DELIMITER ;
+end$$
+delimiter ;
